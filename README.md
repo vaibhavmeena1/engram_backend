@@ -1,12 +1,12 @@
 # engram-backend
 
-Backend service for agent memory/context POC, built with [Vortex](https://bitbucket.org/tata1mg/vortex) (FastAPI wrapper).
+Backend service for agent memory/context POC, built with [Vortex](https://bitbucket.org/tata1mg/vortex) (FastAPI wrapper). 
 
 ## Quick Start
 
 ```bash
 # Install dependencies
-uv sync
+uv sync 
 
 # Run the development server
 uv run python -m app.main
