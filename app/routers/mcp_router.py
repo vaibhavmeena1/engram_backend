@@ -1,11 +1,15 @@
 """MCP server and tools for agent memory access."""
 
-from collections.abc import Awaitable, Callable
+import json
+from collections.abc import AsyncIterator, Awaitable, Callable
 from typing import Annotated, Any
 from uuid import UUID
 
 from fastmcp import FastMCP
 from pydantic import ValidationError, WithJsonSchema
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import StreamingResponse
 from vortex.exceptions import VortexException
 
 from app.schemas.enums import MemorySource, ProposalStatus, RetrievalMode, ScopeType
@@ -798,11 +802,90 @@ def _parse_proposal_status(value: str | None) -> ProposalStatus | None:
         allowed_statuses = ", ".join(status.value for status in ProposalStatus)
         raise bad_request(f"status must be one of {allowed_statuses}") from exc
 
-mcp_http_app = mcp_server.http_app(
-    path="/http",
-    transport="http",
-    json_response=True,
-    stateless_http=True,
+
+_mcp_session_ids_by_client: dict[str, str] = {}
+
+
+def _mcp_client_key(request: Request) -> str | None:
+    authorization_header = (request.headers.get("authorization") or "").strip()
+    client_name = (request.headers.get("x-engram-client") or "").strip().lower()
+    if not authorization_header:
+        return None
+    return f"{client_name}:{authorization_header}" if client_name else authorization_header
+
+
+def _inject_request_header(request: Request, header_name: str, header_value: str) -> None:
+    encoded_name = header_name.lower().encode()
+    encoded_value = header_value.encode()
+    filtered_headers = [
+        (name, value)
+        for name, value in request.scope.get("headers", [])
+        if name.lower() != encoded_name
+    ]
+    filtered_headers.append((encoded_name, encoded_value))
+    request.scope["headers"] = filtered_headers
+
+
+def _jsonrpc_method_from_body(body: bytes) -> str | None:
+    if not body:
+        return None
+    try:
+        payload = json.loads(body)
+    except json.JSONDecodeError:
+        return None
+    if isinstance(payload, dict):
+        method = payload.get("method")
+        return str(method) if method else None
+    return None
+
+
+async def _empty_sse_probe() -> AsyncIterator[str]:
+    yield ": engram-mcp-get-probe\n\n"
+
+
+async def _mcp_http_compatibility_middleware(request: Request, call_next):
+    client_key = _mcp_client_key(request)
+    remembered_session_id = (
+        _mcp_session_ids_by_client.get(client_key) if client_key else None
+    )
+    request_session_id = request.headers.get("mcp-session-id")
+
+    if not request_session_id and remembered_session_id:
+        _inject_request_header(request, "mcp-session-id", remembered_session_id)
+        request_session_id = remembered_session_id
+
+    if request.method == "GET" and not request_session_id:
+        return StreamingResponse(
+            _empty_sse_probe(),
+            media_type="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache, no-transform",
+                "Connection": "keep-alive",
+            },
+        )
+
+    if request.method == "POST" and not request_session_id:
+        request_body = await request.body()
+        if _jsonrpc_method_from_body(request_body) != "initialize" and client_key:
+            stale_session_id = _mcp_session_ids_by_client.pop(client_key, None)
+            if stale_session_id:
+                _inject_request_header(request, "mcp-session-id", stale_session_id)
+
+    response = await call_next(request)
+
+    response_session_id = response.headers.get("mcp-session-id")
+    if client_key and response_session_id:
+        _mcp_session_ids_by_client[client_key] = response_session_id
+    elif client_key and response.status_code == 404:
+        _mcp_session_ids_by_client.pop(client_key, None)
+
+    return response
+
+
+mcp_http_app = mcp_server.http_app(path="/http", transport="http")
+mcp_http_app.add_middleware(
+    BaseHTTPMiddleware,
+    dispatch=_mcp_http_compatibility_middleware,
 )
 
 
