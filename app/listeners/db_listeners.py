@@ -25,7 +25,7 @@ class DbListener:
 
             logger.info("Initializing Tortoise ORM connection...")
             await Tortoise.init(config=db_config)
-            # await Tortoise.generate_schemas(safe=True)
+            await Tortoise.generate_schemas(safe=True)
             logger.info("Tortoise ORM connection established successfully")
 
         except Exception:
