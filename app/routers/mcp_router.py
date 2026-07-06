@@ -798,8 +798,12 @@ def _parse_proposal_status(value: str | None) -> ProposalStatus | None:
         allowed_statuses = ", ".join(status.value for status in ProposalStatus)
         raise bad_request(f"status must be one of {allowed_statuses}") from exc
 
-
-mcp_http_app = mcp_server.http_app(path="/http", transport="http")
+mcp_http_app = mcp_server.http_app(
+    path="/http",
+    transport="http",
+    json_response=True,
+    stateless_http=True,
+)
 
 
 def lifespan():
