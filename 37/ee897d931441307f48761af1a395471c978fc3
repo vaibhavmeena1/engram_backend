@@ -1,0 +1,24 @@
+app/routers/mcp_router.py
+  s_0b5226919027ba::t_b45d60d89f681f 801-806
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.11",
+  "base_commit_sha": "37ee897d931441307f48761af1a395471c978fc3",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_0b5226919027ba": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "452533",
+        "model": "OPENROUTER_GPT_5_POINT_5"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
