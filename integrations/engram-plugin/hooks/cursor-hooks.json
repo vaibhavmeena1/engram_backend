@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "ENGRAM_PLUGIN_ROOT=\"${CURSOR_PLUGIN_ROOT}\" bash \"${CURSOR_PLUGIN_ROOT}/scripts/session_start.sh\" 2>/dev/null || true",
+        "matcher": "startup|resume|compact"
+      }
+    ],
+    "preToolUse": [
+      {
+        "command": "ENGRAM_PLUGIN_ROOT=\"${CURSOR_PLUGIN_ROOT}\" python3 \"${CURSOR_PLUGIN_ROOT}/scripts/inject_repository_context.py\"",
+        "matcher": "mcp__engram__.*|mcp__plugin_engram_engram__.*",
+        "timeout": 3
+      }
+    ]
+  }
+}

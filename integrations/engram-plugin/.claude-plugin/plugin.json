@@ -1,0 +1,25 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "engram",
+  "version": "0.1.0",
+  "description": "Internal Engram memory for Claude Code. Adds repository-aware MCP memory tools, old-session fact extraction, simple context retrieval, automatic Git metadata injection, and scoped memory skills.",
+  "author": { "name": "Vaibhav Meena", "email": "vaibhav.meena@1mg.com" },
+  "publisher": "tata1mg",
+  "license": "UNLICENSED",
+  "keywords": ["memory", "mcp", "repository", "claude-code", "engram"],
+  "capabilities": {
+    "commands": true,
+    "skills": true,
+    "hooks": true,
+    "mcpServers": true
+  },
+  "userConfig": {
+    "ENGRAM_BASE_URL": {
+      "type": "string",
+      "title": "Engram Base URL",
+      "description": "Engram backend base URL, for example https://engram.internal or http://stag.deputydev.ai/engram-service. Set ENGRAM_PERSONAL_ACCESS_TOKEN in your environment for MCP authentication.",
+      "default": "http://stag.deputydev.ai/engram-service",
+      "required": true
+    }
+  }
+}

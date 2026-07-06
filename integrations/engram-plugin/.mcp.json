@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "engram": {
+      "type": "http",
+      "url": "${user_config.ENGRAM_BASE_URL}/mcp/http",
+      "headers": {
+        "Authorization": "Bearer ${ENGRAM_PERSONAL_ACCESS_TOKEN}",
+        "X-Engram-Client": "claude-code"
+      }
+    }
+  }
+}

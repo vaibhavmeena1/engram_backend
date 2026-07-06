@@ -1,0 +1,15 @@
+{
+  "name": "engram",
+  "version": "0.1.0",
+  "description": "Engram memory for Cursor. Adds repository-aware MCP memory tools, old-session fact extraction, simple context retrieval, automatic Git metadata injection, and scoped memory skills.",
+  "author": {
+    "name": "Tata 1mg",
+    "email": "vaibhav.meena@1mg.com"
+  },
+  "homepage": "http://stag.deputydev.ai/engram-service",
+  "license": "UNLICENSED",
+  "keywords": ["engram", "memory", "mcp", "repository", "cursor"],
+  "skills": "./skills/",
+  "hooks": "./hooks/cursor-hooks.json",
+  "mcpServers": ".cursor-mcp.json"
+}

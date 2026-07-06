@@ -1,0 +1,30 @@
+{
+  "name": "engram",
+  "version": "0.1.0",
+  "description": "Engram memory for Codex. Adds repository-aware MCP memory tools, old-session fact extraction, simple context retrieval, automatic Git metadata injection, and scoped memory skills.",
+  "author": {
+    "name": "Tata 1mg",
+    "email": "vaibhav.meena@1mg.com"
+  },
+  "homepage": "http://stag.deputydev.ai/engram-service",
+  "license": "UNLICENSED",
+  "keywords": ["engram", "memory", "mcp", "repository", "codex"],
+  "skills": "./skills/",
+  "mcpServers": "./.codex-mcp.json",
+  "hooks": "./hooks/codex-hooks.json",
+  "interface": {
+    "displayName": "Engram",
+    "shortDescription": "Repository-aware memory for AI coding workflows",
+    "longDescription": "Engram adds durable user, repository, and organization memory to Codex. Store decisions, conventions, and project context, extract long-term facts from old sessions, then retrieve approved memories through MCP tools.",
+    "developerName": "Tata 1mg",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "http://stag.deputydev.ai/engram-service",
+    "defaultPrompt": [
+      "Get relevant Engram context for this task",
+      "Extract durable Engram facts from this old session",
+      "Remember this repository convention in Engram"
+    ],
+    "brandColor": "#2563EB"
+  }
+}

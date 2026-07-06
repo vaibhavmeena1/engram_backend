@@ -1,0 +1,158 @@
+{
+    "NAME": "engram-backend",
+    "HOST": "0.0.0.0",
+    "PORT": "8084",
+    "WORKERS": 1,
+    "DEBUG": true,
+    "ACCESS_LOG": true,
+    "DEV_MODE": false,
+    "RICH_SHOW_LOCALS": true,
+    "RICH_TRACEBACK_THEME": "monokai",
+    "SENTRY": {
+        "DSN": "",
+        "ENVIRONMENT": "DEVELOPMENT",
+        "SERVICE_NAME": "engram-backend",
+        "RELEASE_TAG": "1.0.0",
+        "CAPTURE_WARNING": false
+    },
+    "HEALTH_CHECK": {
+        "TIMEOUT": 5
+    },
+    "CORS": {
+        "ALLOWED_ORIGINS": [
+            "http://localhost:8005",
+            "http://localhost:5173"
+        ],
+        "ALLOW_CREDENTIALS": true,
+        "ALLOW_METHODS": ["*"],
+        "ALLOW_HEADERS": ["*"]
+    },
+    "REDIS_CACHE_HOSTS": {
+        "default": {
+            "REDIS_HOST": "localhost",
+            "REDIS_PORT": 6379,
+            "LABEL": "global",
+            "CONN_LIMIT": 50
+        }
+    },
+    "DATABASE": {
+        "default": {
+            "DB_NAME": "",
+            "DB_HOST": "localhost",
+            "DB_PORT": 5432,
+            "DB_USER": "postgres",
+            "DB_PASSWORD": "",
+            "DB_POOL_MAX_SIZE": 15,
+            "DB_POOL_MIN_SIZE": 5
+        }
+    },
+    "DB_CONNECTIONS": {
+        "apps": {
+            "dao": {
+                "default_connection": "default",
+                "models": [
+                    "animus.models.orm",
+                    "app.models.identity",
+                    "app.models.repository",
+                    "app.models.memory",
+                    "app.models.review",
+                    "app.models.audit"
+                ]
+            }
+        },
+        "connections": {
+            "default": {
+                "credentials": {
+                    "database": "",
+                    "host": "localhost",
+                    "password": "",
+                    "port": 5432,
+                    "user": "postgres"
+                },
+                "engine": "tortoise.backends.asyncpg"
+            }
+        }
+    },
+    "LANGFUSE": {
+        "BASE_URL": "https://jp.cloud.langfuse.com",
+        "ENABLED": false,
+        "PUBLIC_KEY": "",
+        "SECRET_KEY": ""
+    },
+    "OPEN_TELEMETRY": {
+        "ENABLED": false,
+        "SERVICE_NAME": "",
+        "ENDPOINT": "",
+        "SAMPLING_RATE": 0.1
+    },
+    "ENGRAM": {
+        "MCP_SERVER_NAME": "engram-mcp",
+        "DEFAULT_RETRIEVAL_MODE": "lexical",
+        "MAX_SEARCH_RESULTS": 20,
+        "REQUIRE_REVIEW_FOR_REPO_MEMORY": true,
+        "REQUIRE_REVIEW_FOR_ORG_MEMORY": true,
+        "ALLOW_USER_MEMORY_AUTO_APPROVE": true
+    },
+    "ENGRAM_AUTH": {
+        "MODE": "google_workspace_oidc",
+        "PHASE1_HEADER_ENABLED": false,
+        "ALLOWED_EMAIL_DOMAINS": ["1mg.com"],
+        "GOOGLE_HOSTED_DOMAIN": "1mg.com",
+        "DEFAULT_ORG_SLUG": "tata1mg",
+        "ADMIN_EMAILS": [],
+        "AUTO_PROVISION_USERS": true,
+        "GOOGLE_CLIENT_ID": "",
+        "GOOGLE_CLIENT_SECRET": "",
+        "GOOGLE_AUTHORIZATION_ENDPOINT": "https://accounts.google.com/o/oauth2/v2/auth",
+        "GOOGLE_TOKEN_ENDPOINT": "https://oauth2.googleapis.com/token",
+        "GOOGLE_JWKS_URI": "https://www.googleapis.com/oauth2/v3/certs",
+        "GOOGLE_REDIRECT_URI": "http://localhost:8000/auth/google/callback",
+        "JWT_ISSUER": "engram-backend",
+        "JWT_AUDIENCE": "engram-clients",
+        "JWT_SIGNING_ALGORITHM": "HS256",
+        "JWT_SIGNING_KEY": "",
+        "ACCESS_TOKEN_TTL_SECONDS": 86400,
+        "WEB_SESSION_TTL_SECONDS": 86400,
+        "SESSION_COOKIE_NAME": "engram_session",
+        "SESSION_COOKIE_DOMAIN": "",
+        "SESSION_COOKIE_SECURE": true,
+        "SESSION_COOKIE_HTTP_ONLY": true,
+        "SESSION_COOKIE_SAME_SITE": "lax",
+        "CSRF_PROTECTION_ENABLED": false,
+        "CSRF_COOKIE_NAME": "engram_csrf",
+        "CSRF_HEADER_NAME": "x-engram-csrf",
+        "DASHBOARD_LOGIN_SUCCESS_URL": "http://localhost:5173/",
+        "DASHBOARD_LOGIN_FAILURE_URL": "http://localhost:5173/login?error=auth_failed",
+        "DASHBOARD_ALLOWED_RETURN_TO_ORIGINS": ["http://localhost:5173"],
+        "PERSONAL_ACCESS_TOKENS_ENABLED": true,
+        "PERSONAL_ACCESS_TOKEN_PREFIX": "engpat",
+        "PERSONAL_ACCESS_TOKEN_DEFAULT_TTL_SECONDS": 7776000,
+        "PERSONAL_ACCESS_TOKEN_MAX_TTL_SECONDS": 15552000,
+        "PERSONAL_ACCESS_TOKEN_HASH_SECRET": ""
+    },
+    "MEMORY_PROCESSING": {
+        "ENABLED": false,
+        "EXTRACTION_MODEL": "",
+        "AUTO_TAGGING_ENABLED": false,
+        "SECRET_DETECTION_ENABLED": true
+    },
+    "EMBEDDINGS": {
+        "ENABLED": false,
+        "MODEL": "openai:text-embedding-3-large",
+        "FALLBACK_MODEL": "google:gemini-embedding-2",
+        "DIMENSIONS": null,
+        "BATCH_SIZE": 64,
+        "INSTRUMENT": true
+    },
+    "QDRANT": {
+        "ENABLED": false,
+        "URL": "http://localhost:6333",
+        "API_KEY": "",
+        "COLLECTION_STRATEGY": "per_environment",
+        "COLLECTION_PREFIX": "engram_memories",
+        "COLLECTION": "engram_memories_dev"
+    },
+    "OPENAI": {
+        "API_KEY": ""
+    }
+}

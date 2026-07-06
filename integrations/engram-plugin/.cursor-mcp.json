@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "engram": {
+      "url": "${env:ENGRAM_BASE_URL}/mcp/http",
+      "headers": {
+        "Authorization": "Bearer ${env:ENGRAM_PERSONAL_ACCESS_TOKEN}",
+        "X-Engram-Client": "cursor"
+      }
+    }
+  }
+}

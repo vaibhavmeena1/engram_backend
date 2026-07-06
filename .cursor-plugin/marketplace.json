@@ -1,0 +1,18 @@
+{
+  "name": "engram-plugins",
+  "owner": {
+    "name": "Tata 1mg",
+    "email": "vaibhav.meena@1mg.com"
+  },
+  "metadata": {
+    "description": "Internal Engram plugins for Cursor"
+  },
+  "plugins": [
+    {
+      "name": "engram",
+      "source": "./integrations/engram-plugin",
+      "description": "Internal Engram memory for Cursor. Adds repository-aware MCP memory tools, automatic Git metadata injection, and project-scoped memory skills.",
+      "version": "0.1.0"
+    }
+  ]
+}
