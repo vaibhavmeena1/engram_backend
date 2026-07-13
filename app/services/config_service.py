@@ -147,6 +147,93 @@ class EngramAuthSettings(EngramBaseSchema):
         return self
 
 
+class EngramOAuthSettings(EngramBaseSchema):
+    enabled: bool = Field(default=True, alias="ENABLED")
+    issuer: str = Field(default="http://localhost:8000", alias="ISSUER")
+    public_base_url: str = Field(
+        default="http://localhost:8000", alias="PUBLIC_BASE_URL"
+    )
+    mcp_resource_url: str = Field(
+        default="http://localhost:8000/mcp/http", alias="MCP_RESOURCE_URL"
+    )
+    authorization_endpoint_path: str = Field(
+        default="/oauth/authorize", alias="AUTHORIZATION_ENDPOINT_PATH"
+    )
+    token_endpoint_path: str = Field(
+        default="/oauth/token", alias="TOKEN_ENDPOINT_PATH"
+    )
+    registration_endpoint_path: str = Field(
+        default="/oauth/register", alias="REGISTRATION_ENDPOINT_PATH"
+    )
+    protected_resource_metadata_path: str = Field(
+        default="/.well-known/oauth-protected-resource",
+        alias="PROTECTED_RESOURCE_METADATA_PATH",
+    )
+    authorization_server_metadata_path: str = Field(
+        default="/.well-known/oauth-authorization-server",
+        alias="AUTHORIZATION_SERVER_METADATA_PATH",
+    )
+    authorization_code_ttl_seconds: int = Field(
+        default=300, alias="AUTHORIZATION_CODE_TTL_SECONDS", ge=1
+    )
+    default_mcp_access_token_ttl_seconds: int = Field(
+        default=7776000, alias="DEFAULT_MCP_ACCESS_TOKEN_TTL_SECONDS", ge=1
+    )
+    allowed_redirect_uri_origins: list[str] = Field(
+        default_factory=lambda: ["https://claude.ai"],
+        alias="ALLOWED_REDIRECT_URI_ORIGINS",
+    )
+    allow_dynamic_client_registration: bool = Field(
+        default=True, alias="ALLOW_DYNAMIC_CLIENT_REGISTRATION"
+    )
+    auto_approve_trusted_clients: bool = Field(
+        default=True, alias="AUTO_APPROVE_TRUSTED_CLIENTS"
+    )
+    trusted_client_names: list[str] = Field(
+        default_factory=lambda: ["Claude Desktop", "Claude Code"],
+        alias="TRUSTED_CLIENT_NAMES",
+    )
+    authorization_code_hash_secret: str = Field(
+        default="", alias="AUTHORIZATION_CODE_HASH_SECRET"
+    )
+
+    @field_validator(
+        "authorization_endpoint_path",
+        "token_endpoint_path",
+        "registration_endpoint_path",
+        "protected_resource_metadata_path",
+        "authorization_server_metadata_path",
+    )
+    @classmethod
+    def normalize_path(cls, value: str) -> str:
+        normalized_value = (value or "").strip()
+        if not normalized_value:
+            raise ValueError("OAuth endpoint paths must not be empty")
+        return (
+            normalized_value
+            if normalized_value.startswith("/")
+            else f"/{normalized_value}"
+        )
+
+    @field_validator("issuer", "public_base_url", "mcp_resource_url")
+    @classmethod
+    def normalize_url(cls, value: str) -> str:
+        normalized_value = (value or "").strip().rstrip("/")
+        if not normalized_value:
+            raise ValueError("OAuth URLs must not be empty")
+        return normalized_value
+
+    @field_validator("allowed_redirect_uri_origins")
+    @classmethod
+    def normalize_redirect_origins(cls, values: list[str]) -> list[str]:
+        normalized_values = []
+        for value in values:
+            normalized_value = str(value or "").strip().rstrip("/")
+            if normalized_value and normalized_value not in normalized_values:
+                normalized_values.append(normalized_value)
+        return normalized_values
+
+
 class MemoryProcessingSettings(EngramBaseSchema):
     enabled: bool = Field(default=False, alias="ENABLED")
     extraction_model: str = Field(default="", alias="EXTRACTION_MODEL")
@@ -208,6 +295,10 @@ class EngramConfigService:
     @classmethod
     def auth(cls) -> EngramAuthSettings:
         return EngramAuthSettings.model_validate(cls.section("ENGRAM_AUTH"))
+
+    @classmethod
+    def oauth(cls) -> EngramOAuthSettings:
+        return EngramOAuthSettings.model_validate(cls.section("ENGRAM_OAUTH"))
 
     @classmethod
     def memory_processing(cls) -> MemoryProcessingSettings:

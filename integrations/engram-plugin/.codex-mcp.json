@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "engram": {
-      "url": "${env:ENGRAM_BASE_URL}/mcp/http",
+      "url": "https://stag.deputydev.ai/engram-service/mcp/http",
       "bearer_token_env_var": "ENGRAM_PERSONAL_ACCESS_TOKEN"
     }
   }

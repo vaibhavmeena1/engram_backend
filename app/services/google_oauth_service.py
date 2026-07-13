@@ -193,6 +193,13 @@ class GoogleOAuthService:
         if not normalized_return_to:
             return None
 
+        oauth_public_base_url = EngramConfigService.oauth().public_base_url
+        if (
+            normalized_return_to == oauth_public_base_url
+            or normalized_return_to.startswith(f"{oauth_public_base_url}/")
+        ):
+            return normalized_return_to
+
         allowed_origins = cls._allowed_return_to_origins()
         parsed_return_to = urlparse(normalized_return_to)
         return_to_origin = f"{parsed_return_to.scheme}://{parsed_return_to.netloc}"

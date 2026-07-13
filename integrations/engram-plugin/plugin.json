@@ -12,14 +12,5 @@
     "skills": true,
     "hooks": true,
     "mcpServers": true
-  },
-  "userConfig": {
-    "ENGRAM_BASE_URL": {
-      "type": "string",
-      "title": "Engram Base URL",
-      "description": "Engram backend base URL, for example https://engram.internal or http://stag.deputydev.ai/engram-service. Set ENGRAM_PERSONAL_ACCESS_TOKEN in your environment for MCP authentication.",
-      "default": "http://stag.deputydev.ai/engram-service",
-      "required": true
-    }
   }
 }

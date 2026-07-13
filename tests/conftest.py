@@ -61,6 +61,24 @@ TEST_CONFIG = {
         "PERSONAL_ACCESS_TOKEN_MAX_TTL_SECONDS": 15552000,
         "PERSONAL_ACCESS_TOKEN_HASH_SECRET": "test-pat-hash-secret-with-enough-entropy",
     },
+    "ENGRAM_OAUTH": {
+        "ENABLED": True,
+        "ISSUER": "http://localhost:8000",
+        "PUBLIC_BASE_URL": "http://localhost:8000",
+        "MCP_RESOURCE_URL": "http://localhost:8000/mcp/http",
+        "AUTHORIZATION_ENDPOINT_PATH": "/oauth/authorize",
+        "TOKEN_ENDPOINT_PATH": "/oauth/token",
+        "REGISTRATION_ENDPOINT_PATH": "/oauth/register",
+        "PROTECTED_RESOURCE_METADATA_PATH": "/.well-known/oauth-protected-resource",
+        "AUTHORIZATION_SERVER_METADATA_PATH": "/.well-known/oauth-authorization-server",
+        "AUTHORIZATION_CODE_TTL_SECONDS": 300,
+        "DEFAULT_MCP_ACCESS_TOKEN_TTL_SECONDS": 7776000,
+        "ALLOWED_REDIRECT_URI_ORIGINS": ["https://claude.ai"],
+        "ALLOW_DYNAMIC_CLIENT_REGISTRATION": True,
+        "AUTO_APPROVE_TRUSTED_CLIENTS": True,
+        "TRUSTED_CLIENT_NAMES": ["Claude Desktop", "Claude Code"],
+        "AUTHORIZATION_CODE_HASH_SECRET": "test-oauth-code-hash-secret-with-enough-entropy",
+    },
     "MEMORY_PROCESSING": {
         "ENABLED": False,
         "EXTRACTION_MODEL": "",
@@ -113,6 +131,7 @@ async def test_db() -> AsyncIterator[None]:
                 "dao": {
                     "models": [
                         "app.models.identity",
+                        "app.models.oauth",
                         "app.models.repository",
                         "app.models.memory",
                         "app.models.review",

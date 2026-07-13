@@ -5,10 +5,10 @@
         "matcher": "*",
         "hooks": [
           {
-            "name": "engram-session-start",
             "type": "command",
             "command": "ENGRAM_PLUGIN_ROOT=\"${CLAUDE_PLUGIN_ROOT}\" bash \"${CLAUDE_PLUGIN_ROOT}/scripts/session_start.sh\" 2>/dev/null || true",
-            "timeout": 5
+            "timeout": 5,
+            "statusMessage": "Loading Engram context..."
           }
         ]
       }
@@ -18,10 +18,10 @@
         "matcher": "mcp__engram__.*|mcp__plugin_engram_engram__.*",
         "hooks": [
           {
-            "name": "engram-inject-repository",
             "type": "command",
             "command": "ENGRAM_PLUGIN_ROOT=\"${CLAUDE_PLUGIN_ROOT}\" python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/inject_repository_context.py\"",
-            "timeout": 3
+            "timeout": 3,
+            "statusMessage": "Injecting Engram repository context..."
           }
         ]
       }

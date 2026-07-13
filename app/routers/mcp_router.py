@@ -9,10 +9,16 @@ from fastmcp import FastMCP
 from pydantic import ValidationError, WithJsonSchema
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import StreamingResponse
+from starlette.responses import PlainTextResponse, StreamingResponse
 from vortex.exceptions import VortexException
 
-from app.schemas.enums import MemorySource, ProposalStatus, RetrievalMode, ScopeType
+from app.schemas.enums import (
+    AuthMethod,
+    MemorySource,
+    ProposalStatus,
+    RetrievalMode,
+    ScopeType,
+)
 from app.schemas.mcp import (
     McpBatchMemoryItemResult,
     McpBatchSaveMemoriesResult,
@@ -33,11 +39,13 @@ from app.schemas.memory import (
     MemorySearchRequest,
     MemoryUpdateProposalRequest,
 )
+from app.services.auth_context_service import AuthContextService
 from app.services.config_service import EngramConfigService
 from app.services.dashboard_memory_service import DashboardMemoryService
 from app.services.mcp_context_service import McpContextService
 from app.services.memory_retrieval_service import MemoryRetrievalService
 from app.services.memory_service import MemoryService
+from app.services.oauth_metadata_service import OAuthMetadataService
 from app.services.vortex_http import bad_request
 
 MAX_CONTENT_CHARS = 12_000
@@ -811,10 +819,14 @@ def _mcp_client_key(request: Request) -> str | None:
     client_name = (request.headers.get("x-engram-client") or "").strip().lower()
     if not authorization_header:
         return None
-    return f"{client_name}:{authorization_header}" if client_name else authorization_header
+    return (
+        f"{client_name}:{authorization_header}" if client_name else authorization_header
+    )
 
 
-def _inject_request_header(request: Request, header_name: str, header_value: str) -> None:
+def _inject_request_header(
+    request: Request, header_name: str, header_value: str
+) -> None:
     encoded_name = header_name.lower().encode()
     encoded_value = header_value.encode()
     filtered_headers = [
@@ -841,6 +853,28 @@ def _jsonrpc_method_from_body(body: bytes) -> str | None:
 
 async def _empty_sse_probe() -> AsyncIterator[str]:
     yield ": engram-mcp-get-probe\n\n"
+
+
+async def _mcp_oauth_challenge_middleware(request: Request, call_next):
+    try:
+        actor = await AuthContextService.resolve_actor_context(
+            request, required_pat_scope="mcp"
+        )
+        if actor.auth_method != AuthMethod.PERSONAL_ACCESS_TOKEN:
+            raise VortexException("Invalid bearer token", status_code=401)
+    except Exception as exc:  # noqa: BLE001 - transport auth failures must advertise OAuth discovery.
+        status_code = getattr(exc, "status_code", None)
+        if status_code in {401, 403}:
+            return PlainTextResponse(
+                "Missing or invalid access token",
+                status_code=401,
+                headers={
+                    "WWW-Authenticate": OAuthMetadataService.www_authenticate_challenge()
+                },
+            )
+        raise
+
+    return await call_next(request)
 
 
 async def _mcp_http_compatibility_middleware(request: Request, call_next):
@@ -886,6 +920,10 @@ mcp_http_app = mcp_server.http_app(path="/http", transport="http")
 mcp_http_app.add_middleware(
     BaseHTTPMiddleware,
     dispatch=_mcp_http_compatibility_middleware,
+)
+mcp_http_app.add_middleware(
+    BaseHTTPMiddleware,
+    dispatch=_mcp_oauth_challenge_middleware,
 )
 
 
