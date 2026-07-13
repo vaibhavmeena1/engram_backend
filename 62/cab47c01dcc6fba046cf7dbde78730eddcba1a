@@ -1,0 +1,80 @@
+docs/mcp-phase-1-auth.md
+  h_cbc19accedcd8a 875
+app/services/config_service.py
+  s_d67e08662b0e87::t_e6f637a8a74376 150-230,301
+app/routers/oauth.py
+  s_d67e08662b0e87::t_adc5fdcc7be9e5 1-84,90-95
+  s_d67e08662b0e87::t_1ba6df02aa8dec 85-89
+db/migrations/20260713180500_add_oauth_facade_tables.sql
+  s_d67e08662b0e87::t_c5c3f4de7eff38 1-53
+app/migrations/20260713180500_add_oauth_facade_tables.sql
+  s_d67e08662b0e87::t_d6e15aa5f59c6c 1-53
+app/services/oauth_authorization_service.py
+  s_d67e08662b0e87::t_8b1ebf92ca8b83 1-57,61-78,80-105,108-244,248-270
+  s_d67e08662b0e87::t_02760929aa8eb8 58-60,79,106-107,245-247
+app/services/oauth_metadata_service.py
+  s_d67e08662b0e87::t_b573d1fd0d8934 1-55
+app/services/oauth_client_service.py
+  s_d67e08662b0e87::t_8e905f1d30400d 43-44
+  s_d67e08662b0e87::t_1508a7812901a3 1-42,45-181,183-201
+  s_d67e08662b0e87::t_0a8b902829a510 182
+integrations/engram-plugin/hooks/hooks.json
+  s_060ac182ee403b::t_d724a7228c6179 10-11,23-24
+integrations/engram-plugin/.codex-mcp.json
+  h_cbc19accedcd8a 4
+integrations/engram-plugin/.mcp.json
+  h_cbc19accedcd8a 5
+integrations/engram-plugin/hooks.json
+  s_060ac182ee403b::t_f528c2bfb8ceeb 10-11,23-24
+app/main.py
+  s_d67e08662b0e87::t_ba363e2d0be082 18,28
+app/routers/mcp_router.py
+  s_d67e08662b0e87::t_0d8c032562e11f 12,42,48,822-824,827-829,858-870,874-879,924-926
+  s_d67e08662b0e87::t_ae57725cb04548 15-21,871-873
+config_template.json
+  s_d67e08662b0e87::t_96fe2f07d12c55 56,134-150
+integrations/engram-plugin/.cursor-mcp.json
+  h_cbc19accedcd8a 4
+docs/claude-desktop-mcp-oauth-mvp-plan.md
+  s_060ac182ee403b::t_59c9c626ffacec 1-996
+app/models/oauth.py
+  s_d67e08662b0e87::t_367dd1604b31fe 1-48
+app/schemas/auth.py
+  s_d67e08662b0e87::t_880aded907441f 6,73-79,94-97
+  s_d67e08662b0e87::t_6d588593f4c1f0 51-72,80-93,98-117
+app/services/personal_access_token_service.py
+  s_d67e08662b0e87::t_b93fb3b3914e24 85-130
+app/services/google_oauth_service.py
+  s_d67e08662b0e87::t_76fe01f1b3292a 196-201
+tests/conftest.py
+  s_d67e08662b0e87::t_f3471c09d4ef59 64-81,134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.11",
+  "base_commit_sha": "62cab47c01dcc6fba046cf7dbde78730eddcba1a",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_060ac182ee403b": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "455551",
+        "model": "OPENROUTER_GPT_5_POINT_4"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    },
+    "s_d67e08662b0e87": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "455611",
+        "model": "OPENROUTER_GPT_5_POINT_5"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
