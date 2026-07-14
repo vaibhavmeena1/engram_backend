@@ -1,0 +1,14 @@
+integrations/engram-plugin/.mcp.json
+  h_cbc19accedcd8a 4-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.11",
+  "base_commit_sha": "d5e12143f18a1832f6f9127a1dc8ac07fd51afe5",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
