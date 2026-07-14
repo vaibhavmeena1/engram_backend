@@ -1,0 +1,19 @@
+integrations/engram-plugin/plugin.json
+  s_125f8ec2867c47::t_8c226489b52a1d 6,10-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.11",
+  "base_commit_sha": "ab4b00591fad9945f6f451bb040250f8c2315c7a",
+  "prompts": {},
+  "sessions": {
+    "s_125f8ec2867c47": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "456057",
+        "model": "OPENROUTER_GPT_5_POINT_5"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
