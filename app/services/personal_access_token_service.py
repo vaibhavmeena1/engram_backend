@@ -82,6 +82,53 @@ class PersonalAccessTokenService:
         )
 
     @classmethod
+    async def create_oauth_mcp_access_token(
+        cls,
+        *,
+        user: User,
+        organization: Organization,
+        client_id: str,
+        client_name: str | None = None,
+        redirect_uri: str | None = None,
+    ) -> PersonalAccessTokenCreateResponse:
+        settings = EngramConfigService.auth()
+        if not settings.personal_access_tokens_enabled:
+            raise forbidden("Personal Access Tokens are disabled")
+
+        oauth_settings = EngramConfigService.oauth()
+        expires_in_seconds = cls._effective_ttl_seconds(
+            oauth_settings.default_mcp_access_token_ttl_seconds
+        )
+        expires_at = datetime.now(UTC) + timedelta(seconds=expires_in_seconds)
+        raw_token, key_prefix = cls._generate_raw_token()
+        display_name = client_name or "Claude Desktop OAuth"
+
+        token = await PersonalAccessToken.create(
+            user_id=user.id,
+            org_id=organization.id,
+            name=display_name[:255],
+            key_prefix=key_prefix,
+            token_hash=cls.hash_token(raw_token),
+            client_type=AuthClientType.MCP.value,
+            scopes=[cls.DEFAULT_SCOPE],
+            expires_at=expires_at,
+            metadata={
+                "source": "oauth_connector",
+                "oauth_client_id": client_id,
+                "redirect_uri": redirect_uri,
+            },
+        )
+        return PersonalAccessTokenCreateResponse(
+            id=token.id,
+            name=token.name,
+            client_type=AuthClientType.MCP,
+            key_prefix=token.key_prefix,
+            token=raw_token,
+            expires_at=token.expires_at,
+            scopes=token.scopes or [],
+        )
+
+    @classmethod
     async def list_personal_access_tokens(
         cls, actor: ActorContext
     ) -> list[PersonalAccessTokenResponse]:

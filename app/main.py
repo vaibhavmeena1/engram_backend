@@ -15,6 +15,7 @@ from app.routers import (
     memories,
     memory_proposals,
     mcp_router,
+    oauth,
     personal_access_tokens,
     scopes,
     tags,
@@ -24,6 +25,7 @@ from app.services.config_service import EngramConfigService
 # Register your domain routers here
 routers: list[APIRouter] = [
     auth.router,
+    oauth.router,
     personal_access_tokens.router,
     memories.router,
     memory_proposals.router,

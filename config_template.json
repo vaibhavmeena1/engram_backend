@@ -53,6 +53,7 @@
                 "models": [
                     "animus.models.orm",
                     "app.models.identity",
+                    "app.models.oauth",
                     "app.models.repository",
                     "app.models.memory",
                     "app.models.review",
@@ -129,6 +130,24 @@
         "PERSONAL_ACCESS_TOKEN_DEFAULT_TTL_SECONDS": 7776000,
         "PERSONAL_ACCESS_TOKEN_MAX_TTL_SECONDS": 15552000,
         "PERSONAL_ACCESS_TOKEN_HASH_SECRET": ""
+    },
+    "ENGRAM_OAUTH": {
+        "ENABLED": true,
+        "ISSUER": "http://localhost:8000",
+        "PUBLIC_BASE_URL": "http://localhost:8000",
+        "MCP_RESOURCE_URL": "http://localhost:8000/mcp/http",
+        "AUTHORIZATION_ENDPOINT_PATH": "/oauth/authorize",
+        "TOKEN_ENDPOINT_PATH": "/oauth/token",
+        "REGISTRATION_ENDPOINT_PATH": "/oauth/register",
+        "PROTECTED_RESOURCE_METADATA_PATH": "/.well-known/oauth-protected-resource",
+        "AUTHORIZATION_SERVER_METADATA_PATH": "/.well-known/oauth-authorization-server",
+        "AUTHORIZATION_CODE_TTL_SECONDS": 300,
+        "DEFAULT_MCP_ACCESS_TOKEN_TTL_SECONDS": 7776000,
+        "ALLOWED_REDIRECT_URI_ORIGINS": ["https://claude.ai"],
+        "ALLOW_DYNAMIC_CLIENT_REGISTRATION": true,
+        "AUTO_APPROVE_TRUSTED_CLIENTS": true,
+        "TRUSTED_CLIENT_NAMES": ["Claude Desktop", "Claude Code"],
+        "AUTHORIZATION_CODE_HASH_SECRET": ""
     },
     "MEMORY_PROCESSING": {
         "ENABLED": false,

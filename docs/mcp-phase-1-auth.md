@@ -856,7 +856,6 @@ Preferred rollout path:
 Target plugin/runtime config should need only:
 
 ```text
-ENGRAM_BASE_URL
 ENGRAM_PERSONAL_ACCESS_TOKEN
 ```
 
@@ -873,7 +872,7 @@ Suggested target `.mcp.json`:
   "mcpServers": {
     "engram": {
       "type": "http",
-      "url": "${user_config.ENGRAM_BASE_URL}/mcp/http",
+      "url": "https://stag.deputydev.ai/engram-service/mcp/http",
       "headers": {
         "Authorization": "Bearer ${user_config.ENGRAM_PERSONAL_ACCESS_TOKEN}",
         "X-Engram-Client": "claude-code"
