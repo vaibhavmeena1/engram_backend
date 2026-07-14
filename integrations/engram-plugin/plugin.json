@@ -3,13 +3,24 @@
   "name": "engram",
   "version": "0.1.0",
   "description": "Internal Engram memory for Claude Code. Adds repository-aware MCP memory tools, old-session fact extraction, simple context retrieval, automatic Git metadata injection, and scoped memory skills.",
-  "author": { "name": "Vaibhav Meena" , "email": "vaibhav.meena@1mg.com" },
+  "author": { "name": "Vaibhav Meena", "email": "vaibhav.meena@1mg.com" },
   "publisher": "tata1mg",
   "license": "UNLICENSED",
   "keywords": ["memory", "mcp", "repository", "claude-code", "engram"],
-  "capabilities": {
-    "skills": true,
-    "hooks": true,
-    "mcpServers": true
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
+  "mcpServers": {
+    "engram": {
+      "command": "uvx",
+      "args": [
+        "--native-tls",
+        "mcp-stdio",
+        "${ENGRAM_BASE_URL}/mcp/http"
+      ],
+      "env": {
+        "MCP_BEARER_TOKEN": "${ENGRAM_PERSONAL_ACCESS_TOKEN}",
+        "MCP_HEADER_X-Agent-Context-Client": "claude-code"
+      }
+    }
   }
 }
