@@ -1,0 +1,25 @@
+app/services/oauth_client_service.py
+  h_cbc19accedcd8a 133-141,143-144
+  s_9ad3ed2b4692a1::t_9d7f0c1f4cf5f3 156-158,163-165
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.11",
+  "base_commit_sha": "691be1a75721f5aba1b74315291e92d4e64df1a3",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_9ad3ed2b4692a1": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "456179",
+        "model": "OPENROUTER_GPT_5_POINT_5"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
