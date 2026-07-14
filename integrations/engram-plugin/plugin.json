@@ -8,7 +8,6 @@
   "license": "UNLICENSED",
   "keywords": ["memory", "mcp", "repository", "claude-code", "engram"],
   "capabilities": {
-    "commands": true,
     "skills": true,
     "hooks": true,
     "mcpServers": true
