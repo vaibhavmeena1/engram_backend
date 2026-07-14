@@ -1,0 +1,19 @@
+integrations/engram-plugin/.claude-plugin/plugin.json
+  s_125f8ec2867c47::t_3b397a57250699 10-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.11",
+  "base_commit_sha": "9b3e6215c7c53c72d6121380b1703ac21875a169",
+  "prompts": {},
+  "sessions": {
+    "s_125f8ec2867c47": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "456057",
+        "model": "OPENROUTER_GPT_5_POINT_5"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
