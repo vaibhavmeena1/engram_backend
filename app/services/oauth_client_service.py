@@ -130,11 +130,18 @@ class OAuthClientService:
             redirect_origin = (
                 f"{parsed_redirect_uri.scheme}://{parsed_redirect_uri.netloc}"
             )
-            if (
-                parsed_redirect_uri.scheme != "https"
-                or not parsed_redirect_uri.netloc
-                or redirect_origin.rstrip("/") not in allowed_origins
-            ):
+            is_https_allowed_origin = (
+                parsed_redirect_uri.scheme == "https"
+                and parsed_redirect_uri.netloc
+                and redirect_origin.rstrip("/") in allowed_origins
+            )
+
+            is_loopback_redirect = (
+                parsed_redirect_uri.scheme == "http"
+                and parsed_redirect_uri.hostname in {"localhost", "127.0.0.1", "::1"}
+            )
+
+            if not is_https_allowed_origin and not is_loopback_redirect:
                 raise bad_request("redirect_uri origin is not allowed")
             if normalized_redirect_uri not in normalized_redirect_uris:
                 normalized_redirect_uris.append(normalized_redirect_uri)
@@ -146,16 +153,16 @@ class OAuthClientService:
     @classmethod
     def validate_grant_types(cls, grant_types: list[str]) -> list[str]:
         normalized_grant_types = cls._normalize_string_list(grant_types)
-        if normalized_grant_types != cls.DEFAULT_GRANT_TYPES:
-            raise bad_request("Only authorization_code grant is supported")
-        return normalized_grant_types
+        if normalized_grant_types and "authorization_code" not in normalized_grant_types:
+            raise bad_request("authorization_code grant is required")
+        return cls.DEFAULT_GRANT_TYPES
 
     @classmethod
     def validate_response_types(cls, response_types: list[str]) -> list[str]:
         normalized_response_types = cls._normalize_string_list(response_types)
-        if normalized_response_types != cls.DEFAULT_RESPONSE_TYPES:
-            raise bad_request("Only code response type is supported")
-        return normalized_response_types
+        if normalized_response_types and "code" not in normalized_response_types:
+            raise bad_request("code response type is required")
+        return cls.DEFAULT_RESPONSE_TYPES
 
     @classmethod
     def validate_token_auth_method(cls, token_auth_method: str) -> str:
