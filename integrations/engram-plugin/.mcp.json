@@ -1,11 +1,15 @@
 {
   "mcpServers": {
     "engram": {
-      "type": "http",
-      "url": "https://stag.deputydev.ai/engram-service/mcp/http",
-      "headers": {
-        "Authorization": "Bearer ${ENGRAM_PERSONAL_ACCESS_TOKEN}",
-        "X-Engram-Client": "claude-code"
+      "command": "uvx",
+      "args": [
+        "--native-tls",
+        "mcp-stdio",
+        "${ENGRAM_BASE_URL}/mcp/http"
+      ],
+      "env": {
+        "MCP_BEARER_TOKEN": "${ENGRAM_PERSONAL_ACCESS_TOKEN}",
+        "MCP_HEADER_X-Agent-Context-Client": "claude-code"
       }
     }
   }
