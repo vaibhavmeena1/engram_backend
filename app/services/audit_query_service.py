@@ -102,6 +102,7 @@ class AuditQueryService:
             version_number=version.version_number,
             status=version.status,
             content=version.content,
+            rationale=version.rationale,
             summary=version.summary,
             content_hash=version.content_hash,
             change_reason=version.change_reason,

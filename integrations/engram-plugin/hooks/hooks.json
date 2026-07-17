@@ -7,13 +7,33 @@
           {
             "type": "command",
             "command": "ENGRAM_PLUGIN_ROOT=\"${CLAUDE_PLUGIN_ROOT}\" bash \"${CLAUDE_PLUGIN_ROOT}/scripts/session_start.sh\" 2>/dev/null || true",
-            "timeout": 5,
+            "timeout": 8,
             "statusMessage": "Loading Engram context..."
           }
         ]
       }
     ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/on_user_prompt.py\"",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/block_native_memory_write.py\""
+          }
+        ]
+      },
       {
         "matcher": "mcp__engram__.*|mcp__plugin_engram_engram__.*",
         "hooks": [

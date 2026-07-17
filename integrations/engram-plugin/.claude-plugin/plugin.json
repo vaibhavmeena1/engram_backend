@@ -15,7 +15,7 @@
       "args": [
         "--native-tls",
         "mcp-stdio",
-        "${ENGRAM_BASE_URL}/mcp/http"
+        "http://localhost:8000/mcp/http"
       ],
       "env": {
         "MCP_BEARER_TOKEN": "${ENGRAM_PERSONAL_ACCESS_TOKEN}",

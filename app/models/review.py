@@ -35,6 +35,7 @@ class MemoryProposal(EngramModel):
         ProposalStatus, max_length=16, default=ProposalStatus.PENDING
     )
     proposed_content = fields.TextField(null=True)
+    proposed_rationale = fields.TextField(null=True)
     proposed_summary = fields.TextField(null=True)
     proposed_metadata = fields.JSONField(default=dict)
     content_hash = fields.CharField(max_length=128, null=True, index=True)

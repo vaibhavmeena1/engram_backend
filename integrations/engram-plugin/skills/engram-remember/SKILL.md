@@ -17,7 +17,8 @@ For extracting multiple facts from old session history, use `engram-extract`.
 - `scope="repo"` only when the user explicitly says this fact belongs to the current repository/project, or the fact is clearly a repository convention/architecture/provider/testing rule.
 - `scope="org"` only when the user explicitly says this fact applies broadly across the organization.
 - Do not pass user IDs or org IDs. The backend resolves them from the access token.
-- Do not manually pass repository metadata unless the tool call already has it; hooks inject it automatically.
+- If session context reports that the repository is available, omit `repository`; hooks inject authoritative Git metadata.
+- If session context reports that repository resolution is unavailable and you must save a repo fact, pass only `repository: { "origin_url": "<current Git remote>" }` when known.
 
 ## Quality Bar
 
@@ -39,8 +40,9 @@ Do not store:
 1. Extract one concise standalone fact from the user's request.
 2. Assign scope per the **Scope Rules** section above.
 3. Choose 1-5 lowercase tags.
-4. Call `save_memory` with:
+4. Call `save_memories` with one item in `facts`:
    - `content`: durable fact only
+   - `rationale`: why the fact is durable and useful in future work
    - `scope`: `user`, `repo`, or `org`
    - `summary`: short optional summary
    - `tags`: concise tags

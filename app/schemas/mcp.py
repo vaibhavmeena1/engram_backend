@@ -17,13 +17,39 @@ from app.schemas.enums import (
 from app.schemas.repository import RepositoryContext
 
 
-class McpRepositoryMetadata(EngramBaseSchema):
-    """Repository hints supplied by local MCP clients/plugins.
+class McpMemoryFactInput(EngramBaseSchema):
+    """Typed input for one durable fact saved through the MCP batch tool."""
 
-    Extra keys are accepted so newer plugins can send additional Git facts without
-    breaking older backend deployments. The backend still bounds and normalizes
-    this metadata before resolving repository scope.
-    """
+    content: str = Field(
+        description="One concise, standalone durable fact to remember."
+    )
+    rationale: str = Field(
+        description="Why this fact is durable, well-supported, and useful in future work."
+    )
+    scope: str | None = Field(
+        default=None,
+        description="Optional override: user, repo, org, or auto. Uses default_scope when omitted.",
+    )
+    summary: str | None = Field(
+        default=None,
+        description="Optional short searchable label for the fact.",
+    )
+    tags: list[str] | None = Field(
+        default=None,
+        description="Optional lowercase classification tags; up to 20.",
+    )
+    metadata: dict[str, Any] | None = Field(
+        default=None,
+        description="Optional non-sensitive supporting metadata. Do not include extraction_reason.",
+    )
+    idempotency_key: str | None = Field(
+        default=None,
+        description="Optional stable retry key for proposal creation.",
+    )
+
+
+class McpRepositoryMetadata(EngramBaseSchema):
+    """Manual repository fallback; hooks can inject richer local Git metadata."""
 
     model_config = ConfigDict(
         extra="allow",
@@ -32,24 +58,10 @@ class McpRepositoryMetadata(EngramBaseSchema):
         str_strip_whitespace=True,
     )
 
-    repo_id: UUID | None = None
-    repository_id: UUID | None = None
-    id: UUID | None = None
-    origin_url: str | None = None
-    remote_origin_url: str | None = None
-    remote_url: str | None = None
-    git_root: str | None = None
-    repository_path: str | None = None
-    path: str | None = None
-    repo_hint: str | None = None
-    repo_dir_name: str | None = None
-    git_root_basename: str | None = None
-    repo_slug: str | None = None
-    branch: str | None = None
-    current_branch: str | None = None
-    commit_sha: str | None = None
-    commit: str | None = None
-    sha: str | None = None
+    origin_url: str | None = Field(
+        default=None,
+        description="Current Git remote URL. Use only when session context says repository resolution is unavailable.",
+    )
 
 
 class McpResolvedContext(EngramBaseSchema):
@@ -82,14 +94,6 @@ class McpMemoryResult(EngramBaseSchema):
     score: float = 1.0
     match_reason: str | None = None
     updated_at: str | None = None
-
-
-class McpSaveMemoryResult(EngramBaseSchema):
-    accepted: bool
-    status: MemoryStatus | ProposalStatus
-    memory_id: UUID | None = None
-    proposal_id: UUID | None = None
-    message: str
 
 
 class McpProposalToolResult(EngramBaseSchema):

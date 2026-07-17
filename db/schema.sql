@@ -20,10 +20,10 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: engram_memory_access_logs; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_memory_access_logs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_memory_access_logs (
+CREATE TABLE public.agent_context_memory_access_logs (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -48,10 +48,10 @@ CREATE TABLE public.engram_memory_access_logs (
 
 
 --
--- Name: engram_memory_fact_tags; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_memory_fact_tags; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_memory_fact_tags (
+CREATE TABLE public.agent_context_memory_fact_tags (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -63,10 +63,10 @@ CREATE TABLE public.engram_memory_fact_tags (
 
 
 --
--- Name: engram_memory_fact_versions; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_memory_fact_versions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_memory_fact_versions (
+CREATE TABLE public.agent_context_memory_fact_versions (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -84,17 +84,17 @@ CREATE TABLE public.engram_memory_fact_versions (
 
 
 --
--- Name: COLUMN engram_memory_fact_versions.status; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_fact_versions.status; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.engram_memory_fact_versions.status IS 'PENDING_REVIEW: pending_review\nAPPROVED: approved\nREJECTED: rejected\nARCHIVED: archived\nDELETED: deleted\nSUPERSEDED: superseded';
+COMMENT ON COLUMN public.agent_context_memory_fact_versions.status IS 'PENDING_REVIEW: pending_review\nAPPROVED: approved\nREJECTED: rejected\nARCHIVED: archived\nDELETED: deleted\nSUPERSEDED: superseded';
 
 
 --
--- Name: engram_memory_facts; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_memory_facts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_memory_facts (
+CREATE TABLE public.agent_context_memory_facts (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -118,31 +118,31 @@ CREATE TABLE public.engram_memory_facts (
 
 
 --
--- Name: COLUMN engram_memory_facts.scope_type; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_facts.scope_type; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.engram_memory_facts.scope_type IS 'USER: user\nREPO: repo\nORG: org';
-
-
---
--- Name: COLUMN engram_memory_facts.status; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.engram_memory_facts.status IS 'PENDING_REVIEW: pending_review\nAPPROVED: approved\nREJECTED: rejected\nARCHIVED: archived\nDELETED: deleted\nSUPERSEDED: superseded';
+COMMENT ON COLUMN public.agent_context_memory_facts.scope_type IS 'USER: user\nREPO: repo\nORG: org';
 
 
 --
--- Name: COLUMN engram_memory_facts.source; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_facts.status; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.engram_memory_facts.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+COMMENT ON COLUMN public.agent_context_memory_facts.status IS 'PENDING_REVIEW: pending_review\nAPPROVED: approved\nREJECTED: rejected\nARCHIVED: archived\nDELETED: deleted\nSUPERSEDED: superseded';
 
 
 --
--- Name: engram_memory_observations; Type: TABLE; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_facts.source; Type: COMMENT; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_memory_observations (
+COMMENT ON COLUMN public.agent_context_memory_facts.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+
+
+--
+-- Name: agent_context_memory_observations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.agent_context_memory_observations (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -151,7 +151,7 @@ CREATE TABLE public.engram_memory_observations (
     raw_content text NOT NULL,
     source character varying(32) DEFAULT 'mcp'::character varying NOT NULL,
     source_metadata jsonb NOT NULL,
-    contains_possible_secret boolean DEFAULT false CONSTRAINT engram_memory_observat_contains_possible_secret_not_null NOT NULL,
+    contains_possible_secret boolean DEFAULT false CONSTRAINT agent_context_memory_observat_contains_possible_secret_not_null NOT NULL,
     metadata jsonb NOT NULL,
     actor_user_id uuid,
     org_id uuid NOT NULL,
@@ -160,24 +160,24 @@ CREATE TABLE public.engram_memory_observations (
 
 
 --
--- Name: COLUMN engram_memory_observations.scope_type; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_observations.scope_type; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.engram_memory_observations.scope_type IS 'USER: user\nREPO: repo\nORG: org';
-
-
---
--- Name: COLUMN engram_memory_observations.source; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.engram_memory_observations.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+COMMENT ON COLUMN public.agent_context_memory_observations.scope_type IS 'USER: user\nREPO: repo\nORG: org';
 
 
 --
--- Name: engram_memory_proposals; Type: TABLE; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_observations.source; Type: COMMENT; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_memory_proposals (
+COMMENT ON COLUMN public.agent_context_memory_observations.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+
+
+--
+-- Name: agent_context_memory_proposals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.agent_context_memory_proposals (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -189,7 +189,7 @@ CREATE TABLE public.engram_memory_proposals (
     proposed_summary text,
     proposed_metadata jsonb NOT NULL,
     content_hash character varying(128),
-    contains_possible_secret boolean DEFAULT false CONSTRAINT engram_memory_proposal_contains_possible_secret_not_null NOT NULL,
+    contains_possible_secret boolean DEFAULT false CONSTRAINT agent_context_memory_proposal_contains_possible_secret_not_null NOT NULL,
     source character varying(32) DEFAULT 'mcp'::character varying NOT NULL,
     idempotency_key character varying(255),
     review_notes text,
@@ -206,38 +206,38 @@ CREATE TABLE public.engram_memory_proposals (
 
 
 --
--- Name: COLUMN engram_memory_proposals.scope_type; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_proposals.scope_type; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.engram_memory_proposals.scope_type IS 'USER: user\nREPO: repo\nORG: org';
-
-
---
--- Name: COLUMN engram_memory_proposals.proposal_type; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.engram_memory_proposals.proposal_type IS 'CREATE: create\nUPDATE: update\nDELETE: delete\nMERGE: merge';
+COMMENT ON COLUMN public.agent_context_memory_proposals.scope_type IS 'USER: user\nREPO: repo\nORG: org';
 
 
 --
--- Name: COLUMN engram_memory_proposals.status; Type: COMMENT; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_proposals.proposal_type; Type: COMMENT; Schema: public; Owner: -
 --
 
-COMMENT ON COLUMN public.engram_memory_proposals.status IS 'PENDING: pending\nAPPROVED: approved\nREJECTED: rejected\nAPPLIED: applied\nCANCELLED: cancelled';
-
-
---
--- Name: COLUMN engram_memory_proposals.source; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON COLUMN public.engram_memory_proposals.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+COMMENT ON COLUMN public.agent_context_memory_proposals.proposal_type IS 'CREATE: create\nUPDATE: update\nDELETE: delete\nMERGE: merge';
 
 
 --
--- Name: engram_organizations; Type: TABLE; Schema: public; Owner: -
+-- Name: COLUMN agent_context_memory_proposals.status; Type: COMMENT; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_organizations (
+COMMENT ON COLUMN public.agent_context_memory_proposals.status IS 'PENDING: pending\nAPPROVED: approved\nREJECTED: rejected\nAPPLIED: applied\nCANCELLED: cancelled';
+
+
+--
+-- Name: COLUMN agent_context_memory_proposals.source; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.agent_context_memory_proposals.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+
+
+--
+-- Name: agent_context_organizations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.agent_context_organizations (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -249,10 +249,10 @@ CREATE TABLE public.engram_organizations (
 
 
 --
--- Name: engram_personal_access_tokens; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_personal_access_tokens; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_personal_access_tokens (
+CREATE TABLE public.agent_context_personal_access_tokens (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -272,10 +272,10 @@ CREATE TABLE public.engram_personal_access_tokens (
 
 
 --
--- Name: engram_repositories; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_repositories; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_repositories (
+CREATE TABLE public.agent_context_repositories (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -295,10 +295,10 @@ CREATE TABLE public.engram_repositories (
 
 
 --
--- Name: engram_repository_aliases; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_repository_aliases; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_repository_aliases (
+CREATE TABLE public.agent_context_repository_aliases (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -312,10 +312,10 @@ CREATE TABLE public.engram_repository_aliases (
 
 
 --
--- Name: engram_role_assignments; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_role_assignments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_role_assignments (
+CREATE TABLE public.agent_context_role_assignments (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -330,10 +330,10 @@ CREATE TABLE public.engram_role_assignments (
 
 
 --
--- Name: engram_roles; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_roles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_roles (
+CREATE TABLE public.agent_context_roles (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -348,10 +348,10 @@ CREATE TABLE public.engram_roles (
 
 
 --
--- Name: engram_sessions; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_sessions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_sessions (
+CREATE TABLE public.agent_context_sessions (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -368,10 +368,10 @@ CREATE TABLE public.engram_sessions (
 
 
 --
--- Name: engram_tags; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_tags; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_tags (
+CREATE TABLE public.agent_context_tags (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -385,10 +385,10 @@ CREATE TABLE public.engram_tags (
 
 
 --
--- Name: engram_user_identities; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_user_identities; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_user_identities (
+CREATE TABLE public.agent_context_user_identities (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -403,10 +403,10 @@ CREATE TABLE public.engram_user_identities (
 
 
 --
--- Name: engram_users; Type: TABLE; Schema: public; Owner: -
+-- Name: agent_context_users; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.engram_users (
+CREATE TABLE public.agent_context_users (
     id uuid NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -1274,12 +1274,719 @@ COMMENT ON COLUMN public.animus_sessions.metadata IS 'Additional metadata for th
 
 
 --
+-- Name: engram_memory_access_logs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_memory_access_logs (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    action character varying(64) NOT NULL,
+    auth_method character varying(64),
+    client_type character varying(32),
+    session_id uuid,
+    personal_access_token_id uuid,
+    client_name character varying(120),
+    request_id character varying(120),
+    query_hash character varying(128),
+    returned_memory_ids jsonb NOT NULL,
+    scope_filters jsonb NOT NULL,
+    scores jsonb NOT NULL,
+    metadata jsonb NOT NULL,
+    actor_user_id uuid,
+    memory_fact_id uuid,
+    org_id uuid,
+    proposal_id uuid,
+    repository_id uuid
+);
+
+
+--
+-- Name: engram_memory_fact_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_memory_fact_tags (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    metadata jsonb NOT NULL,
+    fact_id uuid NOT NULL,
+    org_id uuid NOT NULL,
+    tag_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_memory_fact_versions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_memory_fact_versions (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    version_number integer NOT NULL,
+    status character varying(32) NOT NULL,
+    content text NOT NULL,
+    summary text,
+    content_hash character varying(128) NOT NULL,
+    change_reason text,
+    metadata jsonb NOT NULL,
+    changed_by_id uuid,
+    fact_id uuid NOT NULL,
+    proposal_id uuid,
+    rationale text
+);
+
+
+--
+-- Name: COLUMN engram_memory_fact_versions.status; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_fact_versions.status IS 'PENDING_REVIEW: pending_review\nAPPROVED: approved\nREJECTED: rejected\nARCHIVED: archived\nDELETED: deleted\nSUPERSEDED: superseded';
+
+
+--
+-- Name: engram_memory_facts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_memory_facts (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    scope_type character varying(16) NOT NULL,
+    scope_id uuid NOT NULL,
+    status character varying(32) DEFAULT 'pending_review'::character varying NOT NULL,
+    content text NOT NULL,
+    summary text,
+    content_hash character varying(128) NOT NULL,
+    source character varying(32) DEFAULT 'system'::character varying NOT NULL,
+    source_ref character varying(255),
+    metadata jsonb NOT NULL,
+    approved_at timestamp with time zone,
+    approved_by_id uuid,
+    created_by_id uuid,
+    org_id uuid NOT NULL,
+    owner_user_id uuid,
+    repository_id uuid,
+    updated_by_id uuid,
+    rationale text
+);
+
+
+--
+-- Name: COLUMN engram_memory_facts.scope_type; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_facts.scope_type IS 'USER: user\nREPO: repo\nORG: org';
+
+
+--
+-- Name: COLUMN engram_memory_facts.status; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_facts.status IS 'PENDING_REVIEW: pending_review\nAPPROVED: approved\nREJECTED: rejected\nARCHIVED: archived\nDELETED: deleted\nSUPERSEDED: superseded';
+
+
+--
+-- Name: COLUMN engram_memory_facts.source; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_facts.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+
+
+--
+-- Name: engram_memory_observations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_memory_observations (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    scope_type character varying(16) NOT NULL,
+    scope_id uuid NOT NULL,
+    raw_content text NOT NULL,
+    source character varying(32) DEFAULT 'mcp'::character varying NOT NULL,
+    source_metadata jsonb NOT NULL,
+    contains_possible_secret boolean DEFAULT false NOT NULL,
+    metadata jsonb NOT NULL,
+    actor_user_id uuid,
+    org_id uuid NOT NULL,
+    repository_id uuid
+);
+
+
+--
+-- Name: COLUMN engram_memory_observations.scope_type; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_observations.scope_type IS 'USER: user\nREPO: repo\nORG: org';
+
+
+--
+-- Name: COLUMN engram_memory_observations.source; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_observations.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+
+
+--
+-- Name: engram_memory_proposals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_memory_proposals (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    scope_type character varying(16) NOT NULL,
+    scope_id uuid NOT NULL,
+    proposal_type character varying(16) NOT NULL,
+    status character varying(16) DEFAULT 'pending'::character varying NOT NULL,
+    proposed_content text,
+    proposed_summary text,
+    proposed_metadata jsonb NOT NULL,
+    content_hash character varying(128),
+    contains_possible_secret boolean DEFAULT false NOT NULL,
+    source character varying(32) DEFAULT 'mcp'::character varying NOT NULL,
+    idempotency_key character varying(255),
+    review_notes text,
+    reviewed_at timestamp with time zone,
+    applied_at timestamp with time zone,
+    metadata jsonb NOT NULL,
+    created_by_id uuid,
+    fact_id uuid,
+    observation_id uuid,
+    org_id uuid NOT NULL,
+    repository_id uuid,
+    reviewed_by_id uuid,
+    proposed_rationale text
+);
+
+
+--
+-- Name: COLUMN engram_memory_proposals.scope_type; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_proposals.scope_type IS 'USER: user\nREPO: repo\nORG: org';
+
+
+--
+-- Name: COLUMN engram_memory_proposals.proposal_type; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_proposals.proposal_type IS 'CREATE: create\nUPDATE: update\nDELETE: delete\nMERGE: merge';
+
+
+--
+-- Name: COLUMN engram_memory_proposals.status; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_proposals.status IS 'PENDING: pending\nAPPROVED: approved\nREJECTED: rejected\nAPPLIED: applied\nCANCELLED: cancelled';
+
+
+--
+-- Name: COLUMN engram_memory_proposals.source; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLUMN public.engram_memory_proposals.source IS 'MCP: mcp\nDASHBOARD: dashboard\nIMPORT: import\nSYSTEM: system\nHOOK: hook';
+
+
+--
+-- Name: engram_oauth_authorization_codes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_oauth_authorization_codes (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    expires_at timestamp with time zone NOT NULL,
+    used_at timestamp with time zone,
+    code_hash character varying(128) NOT NULL,
+    client_id character varying(255) NOT NULL,
+    redirect_uri text NOT NULL,
+    scope character varying(255) DEFAULT 'mcp'::character varying NOT NULL,
+    code_challenge character varying(255) NOT NULL,
+    code_challenge_method character varying(16) DEFAULT 'S256'::character varying NOT NULL,
+    resource text,
+    metadata jsonb NOT NULL,
+    org_id uuid NOT NULL,
+    user_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_oauth_clients; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_oauth_clients (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    client_id character varying(255) NOT NULL,
+    client_name character varying(255),
+    redirect_uris jsonb NOT NULL,
+    grant_types jsonb NOT NULL,
+    response_types jsonb NOT NULL,
+    token_endpoint_auth_method character varying(64) DEFAULT 'none'::character varying NOT NULL,
+    metadata jsonb NOT NULL,
+    last_seen_at timestamp with time zone
+);
+
+
+--
+-- Name: engram_organizations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_organizations (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    name character varying(255) NOT NULL,
+    slug character varying(120) NOT NULL,
+    is_active boolean DEFAULT true NOT NULL,
+    metadata jsonb NOT NULL
+);
+
+
+--
+-- Name: engram_personal_access_tokens; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_personal_access_tokens (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    name character varying(255) NOT NULL,
+    key_prefix character varying(64) NOT NULL,
+    token_hash character varying(128) NOT NULL,
+    client_type character varying(32) DEFAULT 'mcp'::character varying NOT NULL,
+    scopes jsonb NOT NULL,
+    last_used_at timestamp with time zone,
+    expires_at timestamp with time zone,
+    revoked_at timestamp with time zone,
+    revoked_reason text,
+    metadata jsonb NOT NULL,
+    org_id uuid NOT NULL,
+    user_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_repositories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_repositories (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    provider character varying(64) NOT NULL,
+    host character varying(255) NOT NULL,
+    workspace character varying(255) NOT NULL,
+    repo_slug character varying(255) NOT NULL,
+    repository_key character varying(512) NOT NULL,
+    display_name character varying(255),
+    canonical_remote_url character varying(1024),
+    resolver_source character varying(64) NOT NULL,
+    resolver_confidence double precision DEFAULT 1 NOT NULL,
+    is_active boolean DEFAULT true NOT NULL,
+    metadata jsonb NOT NULL,
+    org_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_repository_aliases; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_repository_aliases (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    alias_key character varying(512) NOT NULL,
+    alias_remote_url character varying(1024),
+    source character varying(64) NOT NULL,
+    metadata jsonb NOT NULL,
+    org_id uuid NOT NULL,
+    repository_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_role_assignments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_role_assignments (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    scope_type character varying(32),
+    scope_id uuid,
+    metadata jsonb NOT NULL,
+    assigned_by_id uuid,
+    org_id uuid NOT NULL,
+    role_id uuid NOT NULL,
+    user_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_roles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_roles (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    slug character varying(120) NOT NULL,
+    name character varying(255) NOT NULL,
+    description text,
+    permissions jsonb NOT NULL,
+    is_system boolean DEFAULT false NOT NULL,
+    metadata jsonb NOT NULL,
+    org_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_sessions (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    client_type character varying(32) DEFAULT 'web'::character varying NOT NULL,
+    jwt_id_hash character varying(128) NOT NULL,
+    last_seen_at timestamp with time zone,
+    expires_at timestamp with time zone NOT NULL,
+    revoked_at timestamp with time zone,
+    revoked_reason text,
+    metadata jsonb NOT NULL,
+    org_id uuid NOT NULL,
+    user_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_tags (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    slug character varying(120) NOT NULL,
+    label character varying(255) NOT NULL,
+    description text,
+    color character varying(32),
+    metadata jsonb NOT NULL,
+    org_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_user_identities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_user_identities (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    provider character varying(64) NOT NULL,
+    provider_subject character varying(255) NOT NULL,
+    email_at_login character varying(320) NOT NULL,
+    email_verified boolean DEFAULT false NOT NULL,
+    hosted_domain character varying(255),
+    profile jsonb NOT NULL,
+    user_id uuid NOT NULL
+);
+
+
+--
+-- Name: engram_users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.engram_users (
+    id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    email character varying(320) NOT NULL,
+    display_name character varying(255),
+    is_active boolean DEFAULT true NOT NULL,
+    metadata jsonb NOT NULL
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: agent_context_memory_access_logs agent_context_memory_access_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_access_logs
+    ADD CONSTRAINT agent_context_memory_access_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_memory_fact_tags agent_context_memory_fact_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_fact_tags
+    ADD CONSTRAINT agent_context_memory_fact_tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_memory_fact_versions agent_context_memory_fact_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_fact_versions
+    ADD CONSTRAINT agent_context_memory_fact_versions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_memory_facts agent_context_memory_facts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_facts
+    ADD CONSTRAINT agent_context_memory_facts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_memory_observations agent_context_memory_observations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_observations
+    ADD CONSTRAINT agent_context_memory_observations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_memory_proposals agent_context_memory_proposals_idempotency_key_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_proposals
+    ADD CONSTRAINT agent_context_memory_proposals_idempotency_key_key UNIQUE (idempotency_key);
+
+
+--
+-- Name: agent_context_memory_proposals agent_context_memory_proposals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_proposals
+    ADD CONSTRAINT agent_context_memory_proposals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_organizations agent_context_organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_organizations
+    ADD CONSTRAINT agent_context_organizations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_organizations agent_context_organizations_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_organizations
+    ADD CONSTRAINT agent_context_organizations_slug_key UNIQUE (slug);
+
+
+--
+-- Name: agent_context_personal_access_tokens agent_context_personal_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_personal_access_tokens
+    ADD CONSTRAINT agent_context_personal_access_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_personal_access_tokens agent_context_personal_access_tokens_token_hash_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_personal_access_tokens
+    ADD CONSTRAINT agent_context_personal_access_tokens_token_hash_key UNIQUE (token_hash);
+
+
+--
+-- Name: agent_context_repositories agent_context_repositories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_repositories
+    ADD CONSTRAINT agent_context_repositories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_repository_aliases agent_context_repository_aliases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_repository_aliases
+    ADD CONSTRAINT agent_context_repository_aliases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_role_assignments agent_context_role_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_role_assignments
+    ADD CONSTRAINT agent_context_role_assignments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_roles agent_context_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_roles
+    ADD CONSTRAINT agent_context_roles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_sessions agent_context_sessions_jwt_id_hash_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_sessions
+    ADD CONSTRAINT agent_context_sessions_jwt_id_hash_key UNIQUE (jwt_id_hash);
+
+
+--
+-- Name: agent_context_sessions agent_context_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_sessions
+    ADD CONSTRAINT agent_context_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_tags agent_context_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_tags
+    ADD CONSTRAINT agent_context_tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_user_identities agent_context_user_identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_user_identities
+    ADD CONSTRAINT agent_context_user_identities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: agent_context_users agent_context_users_email_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_users
+    ADD CONSTRAINT agent_context_users_email_key UNIQUE (email);
+
+
+--
+-- Name: agent_context_users agent_context_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_users
+    ADD CONSTRAINT agent_context_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: animus_agent_instances animus_agent_instances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_agent_instances
+    ADD CONSTRAINT animus_agent_instances_pkey PRIMARY KEY (agent_instance_id);
+
+
+--
+-- Name: animus_agent_message_map animus_agent_message_map_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_agent_message_map
+    ADD CONSTRAINT animus_agent_message_map_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: animus_agent_models animus_agent_models_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_agent_models
+    ADD CONSTRAINT animus_agent_models_pkey PRIMARY KEY (agent_model_id);
+
+
+--
+-- Name: animus_agents animus_agents_agent_name_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_agents
+    ADD CONSTRAINT animus_agents_agent_name_key UNIQUE (agent_name);
+
+
+--
+-- Name: animus_agents animus_agents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_agents
+    ADD CONSTRAINT animus_agents_pkey PRIMARY KEY (agent_id);
+
+
+--
+-- Name: animus_handoffs animus_handoffs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_handoffs
+    ADD CONSTRAINT animus_handoffs_pkey PRIMARY KEY (handoff_id);
+
+
+--
+-- Name: animus_history_compactions animus_history_compactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_history_compactions
+    ADD CONSTRAINT animus_history_compactions_pkey PRIMARY KEY (compaction_id);
+
+
+--
+-- Name: animus_llm_calls animus_llm_calls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_llm_calls
+    ADD CONSTRAINT animus_llm_calls_pkey PRIMARY KEY (llm_call_id);
+
+
+--
+-- Name: animus_message_history_threads animus_message_history_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_message_history_threads
+    ADD CONSTRAINT animus_message_history_threads_pkey PRIMARY KEY (thread_id);
+
+
+--
+-- Name: animus_message_history_threads animus_message_history_threads_thread_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_message_history_threads
+    ADD CONSTRAINT animus_message_history_threads_thread_slug_key UNIQUE (thread_slug);
+
+
+--
+-- Name: animus_messages animus_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_messages
+    ADD CONSTRAINT animus_messages_pkey PRIMARY KEY (message_id);
+
+
+--
+-- Name: animus_sessions animus_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.animus_sessions
+    ADD CONSTRAINT animus_sessions_pkey PRIMARY KEY (session_id);
 
 
 --
@@ -1336,6 +2043,38 @@ ALTER TABLE ONLY public.engram_memory_proposals
 
 ALTER TABLE ONLY public.engram_memory_proposals
     ADD CONSTRAINT engram_memory_proposals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: engram_oauth_authorization_codes engram_oauth_authorization_codes_code_hash_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_oauth_authorization_codes
+    ADD CONSTRAINT engram_oauth_authorization_codes_code_hash_key UNIQUE (code_hash);
+
+
+--
+-- Name: engram_oauth_authorization_codes engram_oauth_authorization_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_oauth_authorization_codes
+    ADD CONSTRAINT engram_oauth_authorization_codes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: engram_oauth_clients engram_oauth_clients_client_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_oauth_clients
+    ADD CONSTRAINT engram_oauth_clients_client_id_key UNIQUE (client_id);
+
+
+--
+-- Name: engram_oauth_clients engram_oauth_clients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_oauth_clients
+    ADD CONSTRAINT engram_oauth_clients_pkey PRIMARY KEY (id);
 
 
 --
@@ -1451,102 +2190,6 @@ ALTER TABLE ONLY public.engram_users
 
 
 --
--- Name: animus_agent_instances animus_agent_instances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_agent_instances
-    ADD CONSTRAINT animus_agent_instances_pkey PRIMARY KEY (agent_instance_id);
-
-
---
--- Name: animus_agent_message_map animus_agent_message_map_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_agent_message_map
-    ADD CONSTRAINT animus_agent_message_map_pkey PRIMARY KEY (id);
-
-
---
--- Name: animus_agent_models animus_agent_models_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_agent_models
-    ADD CONSTRAINT animus_agent_models_pkey PRIMARY KEY (agent_model_id);
-
-
---
--- Name: animus_agents animus_agents_agent_name_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_agents
-    ADD CONSTRAINT animus_agents_agent_name_key UNIQUE (agent_name);
-
-
---
--- Name: animus_agents animus_agents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_agents
-    ADD CONSTRAINT animus_agents_pkey PRIMARY KEY (agent_id);
-
-
---
--- Name: animus_handoffs animus_handoffs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_handoffs
-    ADD CONSTRAINT animus_handoffs_pkey PRIMARY KEY (handoff_id);
-
-
---
--- Name: animus_history_compactions animus_history_compactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_history_compactions
-    ADD CONSTRAINT animus_history_compactions_pkey PRIMARY KEY (compaction_id);
-
-
---
--- Name: animus_llm_calls animus_llm_calls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_llm_calls
-    ADD CONSTRAINT animus_llm_calls_pkey PRIMARY KEY (llm_call_id);
-
-
---
--- Name: animus_message_history_threads animus_message_history_threads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_message_history_threads
-    ADD CONSTRAINT animus_message_history_threads_pkey PRIMARY KEY (thread_id);
-
-
---
--- Name: animus_message_history_threads animus_message_history_threads_thread_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_message_history_threads
-    ADD CONSTRAINT animus_message_history_threads_thread_slug_key UNIQUE (thread_slug);
-
-
---
--- Name: animus_messages animus_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_messages
-    ADD CONSTRAINT animus_messages_pkey PRIMARY KEY (message_id);
-
-
---
--- Name: animus_sessions animus_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.animus_sessions
-    ADD CONSTRAINT animus_sessions_pkey PRIMARY KEY (session_id);
-
-
---
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1555,66 +2198,66 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: engram_memory_fact_versions uid_agent_conte_fact_id_2d5b3e; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agent_context_memory_fact_versions uid_agent_conte_fact_id_2d5b3e; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.engram_memory_fact_versions
+ALTER TABLE ONLY public.agent_context_memory_fact_versions
     ADD CONSTRAINT uid_agent_conte_fact_id_2d5b3e UNIQUE (fact_id, version_number);
 
 
 --
--- Name: engram_memory_fact_tags uid_agent_conte_fact_id_9cf82f; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agent_context_memory_fact_tags uid_agent_conte_fact_id_9cf82f; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.engram_memory_fact_tags
+ALTER TABLE ONLY public.agent_context_memory_fact_tags
     ADD CONSTRAINT uid_agent_conte_fact_id_9cf82f UNIQUE (fact_id, tag_id);
 
 
 --
--- Name: engram_roles uid_agent_conte_org_id_1bafb2; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agent_context_roles uid_agent_conte_org_id_1bafb2; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.engram_roles
+ALTER TABLE ONLY public.agent_context_roles
     ADD CONSTRAINT uid_agent_conte_org_id_1bafb2 UNIQUE (org_id, slug);
 
 
 --
--- Name: engram_repositories uid_agent_conte_org_id_8c0f13; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agent_context_repositories uid_agent_conte_org_id_8c0f13; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.engram_repositories
+ALTER TABLE ONLY public.agent_context_repositories
     ADD CONSTRAINT uid_agent_conte_org_id_8c0f13 UNIQUE (org_id, repository_key);
 
 
 --
--- Name: engram_repository_aliases uid_agent_conte_org_id_9c2746; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agent_context_repository_aliases uid_agent_conte_org_id_9c2746; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.engram_repository_aliases
+ALTER TABLE ONLY public.agent_context_repository_aliases
     ADD CONSTRAINT uid_agent_conte_org_id_9c2746 UNIQUE (org_id, alias_key);
 
 
 --
--- Name: engram_role_assignments uid_agent_conte_org_id_9d8548; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agent_context_role_assignments uid_agent_conte_org_id_9d8548; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.engram_role_assignments
+ALTER TABLE ONLY public.agent_context_role_assignments
     ADD CONSTRAINT uid_agent_conte_org_id_9d8548 UNIQUE (org_id, user_id, role_id, scope_type, scope_id);
 
 
 --
--- Name: engram_tags uid_agent_conte_org_id_fad6f3; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agent_context_tags uid_agent_conte_org_id_fad6f3; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.engram_tags
+ALTER TABLE ONLY public.agent_context_tags
     ADD CONSTRAINT uid_agent_conte_org_id_fad6f3 UNIQUE (org_id, slug);
 
 
 --
--- Name: engram_user_identities uid_agent_conte_provide_ca5e2d; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: agent_context_user_identities uid_agent_conte_provide_ca5e2d; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.engram_user_identities
+ALTER TABLE ONLY public.agent_context_user_identities
     ADD CONSTRAINT uid_agent_conte_provide_ca5e2d UNIQUE (provider, provider_subject);
 
 
@@ -1635,150 +2278,249 @@ ALTER TABLE ONLY public.animus_agent_message_map
 
 
 --
--- Name: engram_memory_access_logs_auth_method_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: engram_memory_fact_versions uid_engram_memo_fact_id_38456b; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE INDEX engram_memory_access_logs_auth_method_idx ON public.engram_memory_access_logs USING btree (auth_method);
-
-
---
--- Name: engram_memory_access_logs_client_type_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX engram_memory_access_logs_client_type_idx ON public.engram_memory_access_logs USING btree (client_type);
+ALTER TABLE ONLY public.engram_memory_fact_versions
+    ADD CONSTRAINT uid_engram_memo_fact_id_38456b UNIQUE (fact_id, version_number);
 
 
 --
--- Name: engram_memory_access_logs_pat_id_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: engram_memory_fact_tags uid_engram_memo_fact_id_c74582; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE INDEX engram_memory_access_logs_pat_id_idx ON public.engram_memory_access_logs USING btree (personal_access_token_id);
-
-
---
--- Name: engram_memory_access_logs_session_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX engram_memory_access_logs_session_id_idx ON public.engram_memory_access_logs USING btree (session_id);
+ALTER TABLE ONLY public.engram_memory_fact_tags
+    ADD CONSTRAINT uid_engram_memo_fact_id_c74582 UNIQUE (fact_id, tag_id);
 
 
 --
--- Name: engram_personal_access_tokens_expires_at_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: engram_repositories uid_engram_repo_org_id_16ed07; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE INDEX engram_personal_access_tokens_expires_at_idx ON public.engram_personal_access_tokens USING btree (expires_at);
-
-
---
--- Name: engram_personal_access_tokens_key_prefix_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX engram_personal_access_tokens_key_prefix_idx ON public.engram_personal_access_tokens USING btree (key_prefix);
+ALTER TABLE ONLY public.engram_repositories
+    ADD CONSTRAINT uid_engram_repo_org_id_16ed07 UNIQUE (org_id, repository_key);
 
 
 --
--- Name: engram_personal_access_tokens_user_org_revoked_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: engram_repository_aliases uid_engram_repo_org_id_81f00e; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE INDEX engram_personal_access_tokens_user_org_revoked_idx ON public.engram_personal_access_tokens USING btree (user_id, org_id, revoked_at);
-
-
---
--- Name: engram_sessions_expires_at_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX engram_sessions_expires_at_idx ON public.engram_sessions USING btree (expires_at);
+ALTER TABLE ONLY public.engram_repository_aliases
+    ADD CONSTRAINT uid_engram_repo_org_id_81f00e UNIQUE (org_id, alias_key);
 
 
 --
--- Name: engram_sessions_user_org_revoked_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: engram_role_assignments uid_engram_role_org_id_730927; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE INDEX engram_sessions_user_org_revoked_idx ON public.engram_sessions USING btree (user_id, org_id, revoked_at);
+ALTER TABLE ONLY public.engram_role_assignments
+    ADD CONSTRAINT uid_engram_role_org_id_730927 UNIQUE (org_id, user_id, role_id, scope_type, scope_id);
+
+
+--
+-- Name: engram_roles uid_engram_role_org_id_fded6c; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_roles
+    ADD CONSTRAINT uid_engram_role_org_id_fded6c UNIQUE (org_id, slug);
+
+
+--
+-- Name: engram_tags uid_engram_tags_org_id_e96f0d; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_tags
+    ADD CONSTRAINT uid_engram_tags_org_id_e96f0d UNIQUE (org_id, slug);
+
+
+--
+-- Name: engram_user_identities uid_engram_user_provide_3f4e5a; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_user_identities
+    ADD CONSTRAINT uid_engram_user_provide_3f4e5a UNIQUE (provider, provider_subject);
+
+
+--
+-- Name: agent_context_memory_access_logs_auth_method_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_memory_access_logs_auth_method_idx ON public.agent_context_memory_access_logs USING btree (auth_method);
+
+
+--
+-- Name: agent_context_memory_access_logs_client_type_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_memory_access_logs_client_type_idx ON public.agent_context_memory_access_logs USING btree (client_type);
+
+
+--
+-- Name: agent_context_memory_access_logs_pat_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_memory_access_logs_pat_id_idx ON public.agent_context_memory_access_logs USING btree (personal_access_token_id);
+
+
+--
+-- Name: agent_context_memory_access_logs_session_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_memory_access_logs_session_id_idx ON public.agent_context_memory_access_logs USING btree (session_id);
+
+
+--
+-- Name: agent_context_personal_access_tokens_expires_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_personal_access_tokens_expires_at_idx ON public.agent_context_personal_access_tokens USING btree (expires_at);
+
+
+--
+-- Name: agent_context_personal_access_tokens_key_prefix_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_personal_access_tokens_key_prefix_idx ON public.agent_context_personal_access_tokens USING btree (key_prefix);
+
+
+--
+-- Name: agent_context_personal_access_tokens_user_org_revoked_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_personal_access_tokens_user_org_revoked_idx ON public.agent_context_personal_access_tokens USING btree (user_id, org_id, revoked_at);
+
+
+--
+-- Name: agent_context_sessions_expires_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_sessions_expires_at_idx ON public.agent_context_sessions USING btree (expires_at);
+
+
+--
+-- Name: agent_context_sessions_user_org_revoked_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX agent_context_sessions_user_org_revoked_idx ON public.agent_context_sessions USING btree (user_id, org_id, revoked_at);
+
+
+--
+-- Name: engram_oauth_authorization_codes_code_hash_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX engram_oauth_authorization_codes_code_hash_idx ON public.engram_oauth_authorization_codes USING btree (code_hash);
+
+
+--
+-- Name: engram_oauth_authorization_codes_expires_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX engram_oauth_authorization_codes_expires_at_idx ON public.engram_oauth_authorization_codes USING btree (expires_at);
+
+
+--
+-- Name: engram_oauth_authorization_codes_used_at_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX engram_oauth_authorization_codes_used_at_idx ON public.engram_oauth_authorization_codes USING btree (used_at);
+
+
+--
+-- Name: engram_oauth_authorization_codes_user_org_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX engram_oauth_authorization_codes_user_org_idx ON public.engram_oauth_authorization_codes USING btree (user_id, org_id);
+
+
+--
+-- Name: engram_oauth_clients_client_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX engram_oauth_clients_client_id_idx ON public.engram_oauth_clients USING btree (client_id);
 
 
 --
 -- Name: idx_agent_conte_content_04a427; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_content_04a427 ON public.engram_memory_facts USING btree (content_hash);
+CREATE INDEX idx_agent_conte_content_04a427 ON public.agent_context_memory_facts USING btree (content_hash);
 
 
 --
 -- Name: idx_agent_conte_content_3cc133; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_content_3cc133 ON public.engram_memory_proposals USING btree (content_hash);
+CREATE INDEX idx_agent_conte_content_3cc133 ON public.agent_context_memory_proposals USING btree (content_hash);
 
 
 --
 -- Name: idx_agent_conte_expires_630b6d; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_expires_630b6d ON public.engram_sessions USING btree (expires_at);
+CREATE INDEX idx_agent_conte_expires_630b6d ON public.agent_context_sessions USING btree (expires_at);
 
 
 --
 -- Name: idx_agent_conte_expires_f98183; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_expires_f98183 ON public.engram_personal_access_tokens USING btree (expires_at);
+CREATE INDEX idx_agent_conte_expires_f98183 ON public.agent_context_personal_access_tokens USING btree (expires_at);
 
 
 --
 -- Name: idx_agent_conte_key_pre_0983d0; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_key_pre_0983d0 ON public.engram_personal_access_tokens USING btree (key_prefix);
+CREATE INDEX idx_agent_conte_key_pre_0983d0 ON public.agent_context_personal_access_tokens USING btree (key_prefix);
 
 
 --
 -- Name: idx_agent_conte_org_id_08624d; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_org_id_08624d ON public.engram_memory_access_logs USING btree (org_id, action, created_at);
+CREATE INDEX idx_agent_conte_org_id_08624d ON public.agent_context_memory_access_logs USING btree (org_id, action, created_at);
 
 
 --
 -- Name: idx_agent_conte_org_id_2e0c02; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_org_id_2e0c02 ON public.engram_memory_proposals USING btree (org_id, scope_type, scope_id, status);
+CREATE INDEX idx_agent_conte_org_id_2e0c02 ON public.agent_context_memory_proposals USING btree (org_id, scope_type, scope_id, status);
 
 
 --
 -- Name: idx_agent_conte_org_id_8e04ed; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_org_id_8e04ed ON public.engram_memory_facts USING btree (org_id, scope_type, scope_id, status);
+CREATE INDEX idx_agent_conte_org_id_8e04ed ON public.agent_context_memory_facts USING btree (org_id, scope_type, scope_id, status);
 
 
 --
 -- Name: idx_agent_conte_org_id_d081ba; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_org_id_d081ba ON public.engram_memory_observations USING btree (org_id, scope_type, scope_id);
+CREATE INDEX idx_agent_conte_org_id_d081ba ON public.agent_context_memory_observations USING btree (org_id, scope_type, scope_id);
 
 
 --
 -- Name: idx_agent_conte_request_09bda5; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_request_09bda5 ON public.engram_memory_access_logs USING btree (request_id);
+CREATE INDEX idx_agent_conte_request_09bda5 ON public.agent_context_memory_access_logs USING btree (request_id);
 
 
 --
 -- Name: idx_agent_conte_user_id_5fd66e; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_user_id_5fd66e ON public.engram_personal_access_tokens USING btree (user_id, org_id, revoked_at);
+CREATE INDEX idx_agent_conte_user_id_5fd66e ON public.agent_context_personal_access_tokens USING btree (user_id, org_id, revoked_at);
 
 
 --
 -- Name: idx_agent_conte_user_id_dfd2da; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_agent_conte_user_id_dfd2da ON public.engram_sessions USING btree (user_id, org_id, revoked_at);
+CREATE INDEX idx_agent_conte_user_id_dfd2da ON public.agent_context_sessions USING btree (user_id, org_id, revoked_at);
 
 
 --
@@ -2020,6 +2762,459 @@ CREATE INDEX idx_animus_sess_user_id_47a5ba ON public.animus_sessions USING btre
 
 
 --
+-- Name: idx_engram_memo_auth_me_ba6621; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_auth_me_ba6621 ON public.engram_memory_access_logs USING btree (auth_method);
+
+
+--
+-- Name: idx_engram_memo_client__b56bae; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_client__b56bae ON public.engram_memory_access_logs USING btree (client_type);
+
+
+--
+-- Name: idx_engram_memo_content_42807b; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_content_42807b ON public.engram_memory_proposals USING btree (content_hash);
+
+
+--
+-- Name: idx_engram_memo_content_8b7b71; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_content_8b7b71 ON public.engram_memory_facts USING btree (content_hash);
+
+
+--
+-- Name: idx_engram_memo_org_id_1ff876; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_org_id_1ff876 ON public.engram_memory_proposals USING btree (org_id, scope_type, scope_id, status);
+
+
+--
+-- Name: idx_engram_memo_org_id_28454e; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_org_id_28454e ON public.engram_memory_access_logs USING btree (org_id, action, created_at);
+
+
+--
+-- Name: idx_engram_memo_org_id_95e48e; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_org_id_95e48e ON public.engram_memory_observations USING btree (org_id, scope_type, scope_id);
+
+
+--
+-- Name: idx_engram_memo_org_id_a73503; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_org_id_a73503 ON public.engram_memory_facts USING btree (org_id, scope_type, scope_id, status);
+
+
+--
+-- Name: idx_engram_memo_persona_e942ab; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_persona_e942ab ON public.engram_memory_access_logs USING btree (personal_access_token_id);
+
+
+--
+-- Name: idx_engram_memo_request_c277af; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_request_c277af ON public.engram_memory_access_logs USING btree (request_id);
+
+
+--
+-- Name: idx_engram_memo_session_0bdd5d; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_memo_session_0bdd5d ON public.engram_memory_access_logs USING btree (session_id);
+
+
+--
+-- Name: idx_engram_oaut_expires_26108a; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_oaut_expires_26108a ON public.engram_oauth_authorization_codes USING btree (expires_at);
+
+
+--
+-- Name: idx_engram_oaut_used_at_d279aa; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_oaut_used_at_d279aa ON public.engram_oauth_authorization_codes USING btree (used_at);
+
+
+--
+-- Name: idx_engram_oaut_user_id_cab79c; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_oaut_user_id_cab79c ON public.engram_oauth_authorization_codes USING btree (user_id, org_id);
+
+
+--
+-- Name: idx_engram_pers_expires_0e8a5a; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_pers_expires_0e8a5a ON public.engram_personal_access_tokens USING btree (expires_at);
+
+
+--
+-- Name: idx_engram_pers_key_pre_83fb57; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_pers_key_pre_83fb57 ON public.engram_personal_access_tokens USING btree (key_prefix);
+
+
+--
+-- Name: idx_engram_pers_user_id_913b49; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_pers_user_id_913b49 ON public.engram_personal_access_tokens USING btree (user_id, org_id, revoked_at);
+
+
+--
+-- Name: idx_engram_sess_expires_fc0e36; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_sess_expires_fc0e36 ON public.engram_sessions USING btree (expires_at);
+
+
+--
+-- Name: idx_engram_sess_user_id_badff1; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_engram_sess_user_id_badff1 ON public.engram_sessions USING btree (user_id, org_id, revoked_at);
+
+
+--
+-- Name: agent_context_memory_access_logs agent_context_memory_access_logs_actor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_access_logs
+    ADD CONSTRAINT agent_context_memory_access_logs_actor_user_id_fkey FOREIGN KEY (actor_user_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_access_logs agent_context_memory_access_logs_memory_fact_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_access_logs
+    ADD CONSTRAINT agent_context_memory_access_logs_memory_fact_id_fkey FOREIGN KEY (memory_fact_id) REFERENCES public.agent_context_memory_facts(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_access_logs agent_context_memory_access_logs_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_access_logs
+    ADD CONSTRAINT agent_context_memory_access_logs_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_access_logs agent_context_memory_access_logs_proposal_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_access_logs
+    ADD CONSTRAINT agent_context_memory_access_logs_proposal_id_fkey FOREIGN KEY (proposal_id) REFERENCES public.agent_context_memory_proposals(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_access_logs agent_context_memory_access_logs_repository_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_access_logs
+    ADD CONSTRAINT agent_context_memory_access_logs_repository_id_fkey FOREIGN KEY (repository_id) REFERENCES public.agent_context_repositories(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_fact_tags agent_context_memory_fact_tags_fact_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_fact_tags
+    ADD CONSTRAINT agent_context_memory_fact_tags_fact_id_fkey FOREIGN KEY (fact_id) REFERENCES public.agent_context_memory_facts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_memory_fact_tags agent_context_memory_fact_tags_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_fact_tags
+    ADD CONSTRAINT agent_context_memory_fact_tags_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_memory_fact_tags agent_context_memory_fact_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_fact_tags
+    ADD CONSTRAINT agent_context_memory_fact_tags_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.agent_context_tags(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_memory_fact_versions agent_context_memory_fact_versions_changed_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_fact_versions
+    ADD CONSTRAINT agent_context_memory_fact_versions_changed_by_id_fkey FOREIGN KEY (changed_by_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_fact_versions agent_context_memory_fact_versions_fact_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_fact_versions
+    ADD CONSTRAINT agent_context_memory_fact_versions_fact_id_fkey FOREIGN KEY (fact_id) REFERENCES public.agent_context_memory_facts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_memory_fact_versions agent_context_memory_fact_versions_proposal_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_fact_versions
+    ADD CONSTRAINT agent_context_memory_fact_versions_proposal_id_fkey FOREIGN KEY (proposal_id) REFERENCES public.agent_context_memory_proposals(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_facts agent_context_memory_facts_approved_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_facts
+    ADD CONSTRAINT agent_context_memory_facts_approved_by_id_fkey FOREIGN KEY (approved_by_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_facts agent_context_memory_facts_created_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_facts
+    ADD CONSTRAINT agent_context_memory_facts_created_by_id_fkey FOREIGN KEY (created_by_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_facts agent_context_memory_facts_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_facts
+    ADD CONSTRAINT agent_context_memory_facts_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_memory_facts agent_context_memory_facts_owner_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_facts
+    ADD CONSTRAINT agent_context_memory_facts_owner_user_id_fkey FOREIGN KEY (owner_user_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_facts agent_context_memory_facts_repository_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_facts
+    ADD CONSTRAINT agent_context_memory_facts_repository_id_fkey FOREIGN KEY (repository_id) REFERENCES public.agent_context_repositories(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_facts agent_context_memory_facts_updated_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_facts
+    ADD CONSTRAINT agent_context_memory_facts_updated_by_id_fkey FOREIGN KEY (updated_by_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_observations agent_context_memory_observations_actor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_observations
+    ADD CONSTRAINT agent_context_memory_observations_actor_user_id_fkey FOREIGN KEY (actor_user_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_observations agent_context_memory_observations_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_observations
+    ADD CONSTRAINT agent_context_memory_observations_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_memory_observations agent_context_memory_observations_repository_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_observations
+    ADD CONSTRAINT agent_context_memory_observations_repository_id_fkey FOREIGN KEY (repository_id) REFERENCES public.agent_context_repositories(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_proposals agent_context_memory_proposals_created_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_proposals
+    ADD CONSTRAINT agent_context_memory_proposals_created_by_id_fkey FOREIGN KEY (created_by_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_proposals agent_context_memory_proposals_fact_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_proposals
+    ADD CONSTRAINT agent_context_memory_proposals_fact_id_fkey FOREIGN KEY (fact_id) REFERENCES public.agent_context_memory_facts(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_proposals agent_context_memory_proposals_observation_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_proposals
+    ADD CONSTRAINT agent_context_memory_proposals_observation_id_fkey FOREIGN KEY (observation_id) REFERENCES public.agent_context_memory_observations(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_proposals agent_context_memory_proposals_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_proposals
+    ADD CONSTRAINT agent_context_memory_proposals_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_memory_proposals agent_context_memory_proposals_repository_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_proposals
+    ADD CONSTRAINT agent_context_memory_proposals_repository_id_fkey FOREIGN KEY (repository_id) REFERENCES public.agent_context_repositories(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_memory_proposals agent_context_memory_proposals_reviewed_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_memory_proposals
+    ADD CONSTRAINT agent_context_memory_proposals_reviewed_by_id_fkey FOREIGN KEY (reviewed_by_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_personal_access_tokens agent_context_personal_access_tokens_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_personal_access_tokens
+    ADD CONSTRAINT agent_context_personal_access_tokens_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_personal_access_tokens agent_context_personal_access_tokens_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_personal_access_tokens
+    ADD CONSTRAINT agent_context_personal_access_tokens_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.agent_context_users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_repositories agent_context_repositories_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_repositories
+    ADD CONSTRAINT agent_context_repositories_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_repository_aliases agent_context_repository_aliases_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_repository_aliases
+    ADD CONSTRAINT agent_context_repository_aliases_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_repository_aliases agent_context_repository_aliases_repository_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_repository_aliases
+    ADD CONSTRAINT agent_context_repository_aliases_repository_id_fkey FOREIGN KEY (repository_id) REFERENCES public.agent_context_repositories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_role_assignments agent_context_role_assignments_assigned_by_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_role_assignments
+    ADD CONSTRAINT agent_context_role_assignments_assigned_by_id_fkey FOREIGN KEY (assigned_by_id) REFERENCES public.agent_context_users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: agent_context_role_assignments agent_context_role_assignments_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_role_assignments
+    ADD CONSTRAINT agent_context_role_assignments_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_role_assignments agent_context_role_assignments_role_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_role_assignments
+    ADD CONSTRAINT agent_context_role_assignments_role_id_fkey FOREIGN KEY (role_id) REFERENCES public.agent_context_roles(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_role_assignments agent_context_role_assignments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_role_assignments
+    ADD CONSTRAINT agent_context_role_assignments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.agent_context_users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_roles agent_context_roles_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_roles
+    ADD CONSTRAINT agent_context_roles_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_sessions agent_context_sessions_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_sessions
+    ADD CONSTRAINT agent_context_sessions_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_sessions agent_context_sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_sessions
+    ADD CONSTRAINT agent_context_sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.agent_context_users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_tags agent_context_tags_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_tags
+    ADD CONSTRAINT agent_context_tags_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.agent_context_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: agent_context_user_identities agent_context_user_identities_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.agent_context_user_identities
+    ADD CONSTRAINT agent_context_user_identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.agent_context_users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: engram_memory_access_logs engram_memory_access_logs_actor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2228,6 +3423,22 @@ ALTER TABLE ONLY public.engram_memory_proposals
 
 
 --
+-- Name: engram_oauth_authorization_codes engram_oauth_authorization_codes_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_oauth_authorization_codes
+    ADD CONSTRAINT engram_oauth_authorization_codes_org_id_fkey FOREIGN KEY (org_id) REFERENCES public.engram_organizations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: engram_oauth_authorization_codes engram_oauth_authorization_codes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.engram_oauth_authorization_codes
+    ADD CONSTRAINT engram_oauth_authorization_codes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.engram_users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: engram_personal_access_tokens engram_personal_access_tokens_org_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2352,4 +3563,6 @@ ALTER TABLE ONLY public.engram_user_identities
 
 INSERT INTO public.schema_migrations (version) VALUES
     ('20260704152000'),
-    ('20260704161000');
+    ('20260704161000'),
+    ('20260713180500'),
+    ('20260716163000');

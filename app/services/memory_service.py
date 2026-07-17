@@ -88,7 +88,7 @@ class MemoryService:
         )
 
         safety_result = SafetyService.analyze_memory_payload(
-            request.content, request.summary, request.metadata
+            request.content, request.summary, request.metadata, request.rationale
         )
         cls._ensure_safe_for_auto_approval(safety_result)
 
@@ -108,6 +108,7 @@ class MemoryService:
                 scope_id=request.scope_id,
                 status=MemoryStatus.APPROVED,
                 content=request.content,
+                rationale=request.rationale,
                 summary=request.summary,
                 content_hash=content_hash,
                 source=request.source,
@@ -179,7 +180,7 @@ class MemoryService:
             actor, request.observation_id, request.scope_type, request.scope_id
         )
         safety_result = SafetyService.analyze_memory_payload(
-            request.content, request.summary, request.metadata
+            request.content, request.summary, request.metadata, request.rationale
         )
         normalized_tags = cls._normalize_tags(request.tags)
         await cls._ensure_tag_records(actor, normalized_tags)
@@ -202,6 +203,7 @@ class MemoryService:
             proposal_type=request.proposal_type,
             status=ProposalStatus.PENDING,
             proposed_content=request.content,
+            proposed_rationale=request.rationale,
             proposed_summary=request.summary,
             proposed_metadata=proposed_metadata,
             content_hash=content_hash,
@@ -247,7 +249,7 @@ class MemoryService:
             actor, request.observation_id, memory_fact.scope_type, memory_fact.scope_id
         )
         safety_result = SafetyService.analyze_memory_payload(
-            request.content, request.summary, request.metadata
+            request.content, request.summary, request.metadata, request.rationale
         )
         proposed_metadata = cls._metadata_with_safety(
             cls._metadata_with_tags(request.metadata, request.tags),
@@ -267,6 +269,7 @@ class MemoryService:
             proposal_type=ProposalType.UPDATE,
             status=ProposalStatus.PENDING,
             proposed_content=request.content,
+            proposed_rationale=request.rationale,
             proposed_summary=request.summary,
             proposed_metadata=proposed_metadata,
             content_hash=cls.generate_content_hash(request.content, request.summary),
@@ -493,6 +496,7 @@ class MemoryService:
                 request.edited_content,
                 request.edited_summary,
                 request.edited_metadata,
+                request.edited_rationale,
             )
             cls._ensure_safe_for_approved_memory(safety_result)
 
@@ -501,6 +505,9 @@ class MemoryService:
             )
             proposal.content_hash = memory_fact.content_hash
             proposal.proposed_content = request.edited_content
+            cls._set_tortoise_field(
+                proposal, "proposed_rationale", request.edited_rationale
+            )
             cls._set_tortoise_field(
                 proposal, "proposed_summary", request.edited_summary
             )
@@ -628,6 +635,7 @@ class MemoryService:
             proposal.proposed_content or "",
             proposal.proposed_summary,
             proposal.proposed_metadata,
+            proposal.proposed_rationale,
         )
         cls._ensure_safe_for_approved_memory(safety_result)
 
@@ -644,6 +652,7 @@ class MemoryService:
             scope_id=proposal.scope_id,
             status=MemoryStatus.APPROVED,
             content=proposal.proposed_content or "",
+            rationale=proposal.proposed_rationale,
             summary=proposal.proposed_summary,
             content_hash=proposal.content_hash
             or cls.generate_content_hash(
@@ -691,12 +700,14 @@ class MemoryService:
             proposal.proposed_content or "",
             proposal.proposed_summary,
             proposal.proposed_metadata,
+            proposal.proposed_rationale,
         )
         cls._ensure_safe_for_approved_memory(safety_result)
 
         memory_fact = await cls._get_locked_fact_for_proposal(proposal, connection)
         cls._ensure_fact_can_be_mutated(memory_fact, "updated")
         memory_fact.content = proposal.proposed_content or ""
+        cls._set_tortoise_field(memory_fact, "rationale", proposal.proposed_rationale)
         cls._set_tortoise_field(memory_fact, "summary", proposal.proposed_summary)
         memory_fact.content_hash = proposal.content_hash or cls.generate_content_hash(
             memory_fact.content, memory_fact.summary
@@ -789,6 +800,7 @@ class MemoryService:
                 scope_id=proposal.scope_id,
                 status=MemoryStatus.APPROVED,
                 content=request.edited_content,
+                rationale=request.edited_rationale,
                 summary=request.edited_summary,
                 content_hash=cls.generate_content_hash(
                     request.edited_content, request.edited_summary
@@ -826,6 +838,7 @@ class MemoryService:
         memory_fact = await cls._get_locked_fact_for_proposal(proposal, connection)
         cls._ensure_fact_can_be_mutated(memory_fact, "updated")
         memory_fact.content = request.edited_content
+        cls._set_tortoise_field(memory_fact, "rationale", request.edited_rationale)
         cls._set_tortoise_field(memory_fact, "summary", request.edited_summary)
         memory_fact.content_hash = cls.generate_content_hash(
             request.edited_content, request.edited_summary
@@ -952,6 +965,7 @@ class MemoryService:
             version_number=version_number,
             status=memory_fact.status,
             content=memory_fact.content,
+            rationale=memory_fact.rationale,
             summary=memory_fact.summary,
             content_hash=memory_fact.content_hash,
             change_reason=change_reason,
@@ -1371,6 +1385,7 @@ class MemoryService:
             scope_id=memory_fact.scope_id,
             status=memory_fact.status,
             content=memory_fact.content,
+            rationale=memory_fact.rationale,
             summary=memory_fact.summary,
             tags=cls._tags_from_metadata(memory_fact.metadata),
             source=memory_fact.source,
@@ -1394,6 +1409,7 @@ class MemoryService:
             proposal_type=proposal.proposal_type,
             status=proposal.status,
             proposed_content=proposal.proposed_content,
+            proposed_rationale=proposal.proposed_rationale,
             proposed_summary=proposal.proposed_summary,
             contains_possible_secret=proposal.contains_possible_secret,
             metadata=proposal.metadata or {},

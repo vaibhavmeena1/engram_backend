@@ -72,8 +72,11 @@ class McpContextService:
         org_id: UUID,
         repository_metadata: dict[str, Any] | None = None,
     ) -> RepositoryContext | None:
-        merged_metadata = cls._repository_metadata_from_request(request)
-        merged_metadata.update(cls._normalize_metadata(repository_metadata))
+        request_metadata = cls._repository_metadata_from_request(request)
+        # HTTP headers are client/hook-owned transport context. A tool argument is
+        # only a fallback for runtimes without hooks and must not override it.
+        merged_metadata = cls._normalize_metadata(repository_metadata)
+        merged_metadata.update(request_metadata)
 
         repository_input = RepositoryRemoteInput(
             explicit_repo_id=cls._metadata_uuid(

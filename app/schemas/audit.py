@@ -39,6 +39,7 @@ class MemoryFactVersionResponse(EngramBaseSchema):
     version_number: int
     status: MemoryStatus
     content: str
+    rationale: str | None = None
     summary: str | None = None
     content_hash: str
     change_reason: str | None = None

@@ -28,6 +28,7 @@ class MemoryFact(EngramModel):
         MemoryStatus, max_length=32, default=MemoryStatus.PENDING_REVIEW
     )
     content = fields.TextField()
+    rationale = fields.TextField(null=True)
     summary = fields.TextField(null=True)
     content_hash = fields.CharField(max_length=128, index=True)
     source = fields.CharEnumField(
@@ -102,6 +103,7 @@ class MemoryFactVersion(EngramModel):
     version_number = fields.IntField()
     status = fields.CharEnumField(MemoryStatus, max_length=32)
     content = fields.TextField()
+    rationale = fields.TextField(null=True)
     summary = fields.TextField(null=True)
     content_hash = fields.CharField(max_length=128)
     change_reason = fields.TextField(null=True)

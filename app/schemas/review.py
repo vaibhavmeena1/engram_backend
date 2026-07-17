@@ -14,6 +14,7 @@ class ProposalReviewRequest(EngramBaseSchema):
 
 class ProposalApplyEditedRequest(ProposalReviewRequest):
     edited_content: str = Field(min_length=1)
+    edited_rationale: str | None = None
     edited_summary: str | None = None
     edited_metadata: dict = Field(default_factory=dict)
 

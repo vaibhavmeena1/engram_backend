@@ -679,21 +679,23 @@ Target Claude Code first. Keep tools explicit and safe.
 
 Use names that make scope clear and avoid accidental broad access.
 
-#### 1. `save_memory`
+#### 1. `save_memories`
 
-Creates an observation and either directly creates a fact or creates a proposal depending on policy.
+Saves one or more typed memory facts. Each fact requires durable content and a direct rationale; the service either creates a user fact or creates a review proposal according to scope policy.
 
 Inputs:
 
 ```json
 {
-  "content": "Repo uses uv for Python commands.",
-  "scope_type": "repo",
-  "repo_slug": "engram-backend",
-  "tags": ["tooling", "python"],
-  "confidence": 0.9,
-  "source_type": "manual",
-  "requires_review": true
+  "facts": [
+    {
+      "content": "Repo uses uv for Python commands.",
+      "rationale": "The repository configuration and contributor workflow establish uv as the required command runner.",
+      "scope": "repo",
+      "tags": ["tooling", "python"]
+    }
+  ],
+  "default_scope": "user"
 }
 ```
 
@@ -979,7 +981,7 @@ GET /api/audit/memory-fact-versions
 ### New Fact Flow
 
 ```text
-MCP save_memory / raw observation
+MCP save_memories / typed memory facts
         |
         v
 Optional LLM extraction/canonicalization
@@ -1116,7 +1118,7 @@ Example result to Claude Code:
 - Add FastMCP server router.
 - Implement context extraction from token/headers.
 - Add tools:
-  - `save_memory`
+  - `save_memories`
   - `search_memories`
   - `list_memories`
   - `propose_memory_update`

@@ -52,19 +52,15 @@ def _is_engram_tool(tool_name: str) -> bool:
 def _merge_repository(
     existing_value: Any, resolved_repository: dict[str, str]
 ) -> tuple[dict[str, Any], bool]:
-    if not resolved_repository:
-        return {}, False
+    """Prefer locally resolved Git metadata over model-provided repository hints."""
+    if resolved_repository:
+        return resolved_repository, resolved_repository != existing_value
 
+    # Hooks are unavailable outside a Git workspace. Preserve an explicitly supplied
+    # minimal fallback, such as origin_url, for the backend repository resolver.
     if isinstance(existing_value, dict):
-        merged_repository = dict(existing_value)
-        changed = False
-        for key, value in resolved_repository.items():
-            if not merged_repository.get(key):
-                merged_repository[key] = value
-                changed = True
-        return merged_repository, changed
-
-    return resolved_repository, True
+        return existing_value, False
+    return {}, False
 
 
 def _emit_updated_input(updated_input: dict[str, Any]) -> None:

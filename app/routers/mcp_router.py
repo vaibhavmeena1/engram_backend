@@ -6,7 +6,7 @@ from typing import Annotated, Any
 from uuid import UUID
 
 from fastmcp import FastMCP
-from pydantic import ValidationError, WithJsonSchema
+from pydantic import Field, ValidationError, WithJsonSchema
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse, StreamingResponse
@@ -23,11 +23,11 @@ from app.schemas.mcp import (
     McpBatchMemoryItemResult,
     McpBatchSaveMemoriesResult,
     McpContextStatusResult,
+    McpMemoryFactInput,
     McpProposalStatusResult,
     McpProposalToolResult,
     McpRepositoryMetadata,
     McpReviewStatusResult,
-    McpSaveMemoryResult,
     McpSearchMemoriesResult,
     McpToolError,
 )
@@ -50,6 +50,7 @@ from app.services.vortex_http import bad_request
 
 MAX_CONTENT_CHARS = 12_000
 MAX_SUMMARY_CHARS = 1_000
+MAX_RATIONALE_CHARS = 1_000
 MAX_REASON_CHARS = 1_000
 MAX_TAGS = 20
 MAX_TAG_CHARS = 80
@@ -78,17 +79,31 @@ McpOptionalObjectParam = Annotated[
     WithJsonSchema({"type": "object", "additionalProperties": True}),
 ]
 McpMemoryFactsParam = Annotated[
-    list[dict[str, Any]],
-    WithJsonSchema(
-        {
-            "type": "array",
-            "items": {"type": "object", "additionalProperties": True},
-        }
+    list[McpMemoryFactInput],
+    Field(
+        min_length=1,
+        max_length=MAX_BATCH_MEMORY_FACTS,
+        description="One to 20 durable memory facts. Every fact requires content and rationale.",
+    ),
+]
+McpDefaultScopeParam = Annotated[
+    str,
+    Field(
+        description="Fallback scope for facts without scope: user, repo, org, or auto."
     ),
 ]
 McpRepositoryParam = Annotated[
     McpRepositoryMetadata | dict[str, Any] | None,
-    WithJsonSchema({"type": "object", "additionalProperties": True}),
+    WithJsonSchema(
+        {
+            "type": "object",
+            "additionalProperties": True,
+            "description": (
+                "Hook-managed repository hints. Omit when session context says repository "
+                "is available; only send a minimal origin_url when repository resolution is unavailable."
+            ),
+        }
+    ),
 ]
 
 mcp_server = FastMCP(EngramConfigService.engram().mcp_server_name)
@@ -391,56 +406,60 @@ def _proposal_status_result(
     )
 
 
-def _bounded_memory_facts(facts: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    if not isinstance(facts, list):
-        raise bad_request("facts must be a list")
+def _bounded_memory_facts(
+    facts: list[McpMemoryFactInput],
+) -> list[McpMemoryFactInput]:
     if not facts:
         raise bad_request("facts must contain at least one memory fact")
     if len(facts) > MAX_BATCH_MEMORY_FACTS:
         raise bad_request(f"At most {MAX_BATCH_MEMORY_FACTS} memory facts are allowed")
-
-    bounded_facts = []
-    for index, fact in enumerate(facts, start=1):
-        if not isinstance(fact, dict):
-            raise bad_request(f"facts[{index}] must be an object")
-        bounded_facts.append(fact)
-    return bounded_facts
+    return facts
 
 
 def _memory_create_request_from_fact(
-    fact: dict[str, Any],
+    fact: McpMemoryFactInput,
     default_scope: str,
     context,
     index: int,
 ) -> MemoryCreateRequest:
-    fact_scope = str(fact.get("scope") or default_scope or "user")
+    fact_scope = fact.scope or default_scope or "user"
     memory_scope = _memory_scope_for_save(fact_scope, context)
-    metadata = _bounded_metadata(fact.get("metadata"), "save_memory_facts")
+    metadata = _bounded_metadata(fact.metadata, "save_memories")
+    if "extraction_reason" in metadata:
+        raise bad_request(
+            f"facts[{index}].metadata.extraction_reason is no longer supported; use rationale"
+        )
     metadata["batch_index"] = index
     return MemoryCreateRequest(
         scope_type=memory_scope.scope_type,
         scope_id=memory_scope.scope_id,
         content=_bounded_text(
-            str(fact.get("content") or ""),
+            fact.content,
             f"facts[{index}].content",
             MAX_CONTENT_CHARS,
             required=True,
         ),
-        summary=_bounded_optional_text(
-            fact.get("summary"), f"facts[{index}].summary", MAX_SUMMARY_CHARS
+        rationale=_bounded_text(
+            fact.rationale,
+            f"facts[{index}].rationale",
+            MAX_RATIONALE_CHARS,
+            required=True,
         ),
-        tags=_bounded_tags(fact.get("tags")),
+        summary=_bounded_optional_text(
+            fact.summary, f"facts[{index}].summary", MAX_SUMMARY_CHARS
+        ),
+        tags=_bounded_tags(fact.tags),
         source=MemorySource.MCP,
         metadata=metadata,
         idempotency_key=_bounded_optional_text(
-            fact.get("idempotency_key"), f"facts[{index}].idempotency_key", 255
+            fact.idempotency_key, f"facts[{index}].idempotency_key", 255
         ),
     )
 
 
-async def _save_memory_fact_item(
+async def _persist_memory_item(
     context,
-    fact: dict[str, Any],
+    fact: McpMemoryFactInput,
     default_scope: str,
     index: int,
 ) -> McpBatchMemoryItemResult:
@@ -463,6 +482,42 @@ async def _save_memory_fact_item(
         scope_type=result.scope_type,
         memory_id=result.id,
         message="Memory saved.",
+    )
+
+
+async def _save_memories(
+    context,
+    facts: list[McpMemoryFactInput],
+    default_scope: str,
+) -> McpBatchSaveMemoriesResult:
+    results: list[McpBatchMemoryItemResult] = []
+    for index, fact in enumerate(_bounded_memory_facts(facts), start=1):
+        try:
+            results.append(
+                await _persist_memory_item(context, fact, default_scope, index)
+            )
+        except Exception as exc:  # noqa: BLE001 - one invalid item must not discard accepted facts.
+            error = _safe_exception_response(exc)
+            results.append(
+                McpBatchMemoryItemResult(
+                    index=index,
+                    accepted=False,
+                    message=str(error.get("message") or "Memory fact could not be saved."),
+                    error_code=str(error.get("code") or "request_failed"),
+                )
+            )
+
+    saved_count = sum(
+        1 for result in results if result.memory_id and not result.proposal_id
+    )
+    proposal_count = sum(1 for result in results if result.proposal_id)
+    error_count = sum(1 for result in results if not result.accepted)
+    return McpBatchSaveMemoriesResult(
+        accepted=saved_count + proposal_count > 0,
+        saved_count=saved_count,
+        proposal_count=proposal_count,
+        error_count=error_count,
+        results=results,
     )
 
 
@@ -490,102 +545,21 @@ async def get_current_context(repository: McpRepositoryParam = None) -> dict[str
 
 
 @mcp_server.tool(
-    name="save_memory",
+    name="save_memories",
     description=(
-        "Add one durable memory fact. Defaults to the current user's own memories. "
-        "Use scope='repo' or scope='org' for shared facts; no user_id or org_id input is required."
+        "Save one to 20 durable facts. Each fact requires content and rationale; summary is optional. "
+        "Use explicit user, repo, or org scopes when possible. Actor and organization come from auth. "
+        "Repository context is normally injected by hooks; omit repository when session context says it is available."
     ),
 )
-async def save_memory(
-    content: str,
-    scope: str = "user",
-    summary: McpOptionalTextParam = None,
-    tags: McpOptionalStringListParam = None,
-    metadata: McpOptionalObjectParam = None,
-    idempotency_key: McpOptionalTextParam = None,
-    repository: McpRepositoryParam = None,
-) -> dict[str, Any]:
-    async def handler() -> McpSaveMemoryResult:
-        context = await _resolve_mcp_context(repository)
-        memory_scope = _memory_scope_for_save(scope, context)
-        request = MemoryCreateRequest(
-            scope_type=memory_scope.scope_type,
-            scope_id=memory_scope.scope_id,
-            content=_bounded_text(content, "content", MAX_CONTENT_CHARS, required=True),
-            summary=_bounded_optional_text(summary, "summary", MAX_SUMMARY_CHARS),
-            tags=_bounded_tags(tags),
-            source=MemorySource.MCP,
-            metadata=_bounded_metadata(metadata, "save_memory"),
-            idempotency_key=_bounded_optional_text(
-                idempotency_key, "idempotency_key", 255
-            ),
-        )
-        result = await MemoryService.create_memory(context.actor, request)
-        if isinstance(result, MemoryProposalResponse):
-            return McpSaveMemoryResult(
-                accepted=True,
-                status=result.status,
-                proposal_id=result.id,
-                message="Memory proposal created and is pending review.",
-            )
-        return McpSaveMemoryResult(
-            accepted=True,
-            status=result.status,
-            memory_id=result.id,
-            message="Memory saved.",
-        )
-
-    return await _run_tool(handler)
-
-
-@mcp_server.tool(
-    name="save_memory_facts",
-    description=(
-        "Add up to 20 extracted durable memory facts in one call. "
-        "default_scope applies to any fact that omits its own scope field; it defaults to 'user'. "
-        "Each fact may override scope with 'user', 'repo', or 'org'. "
-        "No user_id or org_id input is required."
-    ),
-)
-async def save_memory_facts(
+async def save_memories(
     facts: McpMemoryFactsParam,
-    default_scope: str = "user",
+    default_scope: McpDefaultScopeParam = "user",
     repository: McpRepositoryParam = None,
 ) -> dict[str, Any]:
     async def handler() -> McpBatchSaveMemoriesResult:
         context = await _resolve_mcp_context(repository)
-        bounded_facts = _bounded_memory_facts(facts)
-        results: list[McpBatchMemoryItemResult] = []
-        for index, fact in enumerate(bounded_facts, start=1):
-            try:
-                results.append(
-                    await _save_memory_fact_item(context, fact, default_scope, index)
-                )
-            except Exception as exc:  # noqa: BLE001 - batch calls should report item failures without dropping successes.
-                error = _safe_exception_response(exc)
-                results.append(
-                    McpBatchMemoryItemResult(
-                        index=index,
-                        accepted=False,
-                        message=str(
-                            error.get("message") or "Memory fact could not be saved."
-                        ),
-                        error_code=str(error.get("code") or "request_failed"),
-                    )
-                )
-
-        saved_count = sum(
-            1 for result in results if result.memory_id and not result.proposal_id
-        )
-        proposal_count = sum(1 for result in results if result.proposal_id)
-        error_count = sum(1 for result in results if not result.accepted)
-        return McpBatchSaveMemoriesResult(
-            accepted=saved_count + proposal_count > 0,
-            saved_count=saved_count,
-            proposal_count=proposal_count,
-            error_count=error_count,
-            results=results,
-        )
+        return await _save_memories(context, facts, default_scope)
 
     return await _run_tool(handler)
 

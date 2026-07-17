@@ -17,6 +17,7 @@ from app.routers import (
     mcp_router,
     oauth,
     personal_access_tokens,
+    plugin,
     scopes,
     tags,
 )
@@ -33,6 +34,7 @@ routers: list[APIRouter] = [
     scopes.router,
     admin.router,
     audit.router,
+    plugin.router,
 ]
 
 vortex = Vortex(

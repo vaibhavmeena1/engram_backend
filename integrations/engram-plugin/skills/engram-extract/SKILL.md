@@ -9,7 +9,7 @@ Use this skill when the user opens an old session, pastes a transcript, or asks 
 
 This is **not** a session summary workflow. Extract only facts that should improve future assistance for months.
 
-Do not ask for or pass a user ID or org ID. Engram gets the current user and organization from authentication. Repository context is injected by hooks when available.
+Do not ask for or pass a user ID or org ID. Engram gets the current user and organization from authentication. If session context says repository context is available, omit `repository` because hooks inject authoritative local Git metadata. If it is unavailable and a repo fact must be saved, pass only `repository.origin_url` when the current Git remote is known.
 
 ## Core Scope Rules
 
@@ -57,10 +57,9 @@ Prefer:
 4. For each retained fact, write one concise standalone sentence.
 5. Assign an explicit scope: `user`, `repo`, or `org`.
 6. Add 1-5 lowercase tags such as `preference`, `working-style`, `architecture`, `convention`, `repo`, or `org-standard`.
-7. Call `save_memory_facts` with the `facts` parameter set to a list of fact objects (see shape below), and set `default_scope` to the dominant scope for the batch (typically `"user"`). Individual facts may override scope. Include metadata per fact:
+7. Call `save_memories` with the `facts` parameter set to a list of fact objects (see shape below), and set `default_scope` to the dominant scope for the batch (typically `"user"`). Individual facts may override scope. Every fact must include `rationale`, a concise explanation of why it passed the rubric. Include metadata per fact:
    - `source`: `engram-extract`
    - `confidence`: `0.8` to `1.0`
-   - `extraction_reason`: short reason the fact passed the rubric
 8. Report compact results:
    - saved count
    - review proposal count
@@ -75,24 +74,24 @@ Each item in the `facts` list should look like this:
 [
   {
     "content": "The user prefers architecture-first discussions before implementation details.",
+    "rationale": "The user stated this stable working preference clearly, and it will guide future technical discussions.",
     "scope": "user",
     "summary": "Architecture-first preference",
     "tags": ["preference", "working-style"],
     "metadata": {
       "source": "engram-extract",
-      "confidence": 0.9,
-      "extraction_reason": "Stable preference stated with high confidence."
+      "confidence": 0.9
     }
   },
   {
     "content": "This repository uses a manager -> template -> repository architecture pattern.",
+    "rationale": "This stable repository convention is useful when planning and reviewing future code changes.",
     "scope": "repo",
     "summary": "Repository architecture pattern",
     "tags": ["architecture", "convention", "repo"],
     "metadata": {
       "source": "engram-extract",
-      "confidence": 0.85,
-      "extraction_reason": "Repository-specific convention useful for future code changes."
+      "confidence": 0.85
     }
   }
 ]

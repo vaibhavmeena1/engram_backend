@@ -51,10 +51,14 @@ class SafetyService:
 
     @classmethod
     def analyze_memory_payload(
-        cls, content: str, summary: str | None = None, metadata: dict | None = None
+        cls,
+        content: str,
+        summary: str | None = None,
+        metadata: dict | None = None,
+        rationale: str | None = None,
     ) -> SafetyCheckResult:
-        """Analyze memory content plus relevant metadata for obvious secret-like values."""
-        payload_parts = [content or "", summary or ""]
+        """Analyze memory content, rationale, and metadata for obvious secret-like values."""
+        payload_parts = [content or "", summary or "", rationale or ""]
         if metadata:
             payload_parts.append(
                 json.dumps(metadata, ensure_ascii=False, sort_keys=True, default=str)

@@ -727,7 +727,7 @@ Expose the memory loop to Claude Code through MCP.
 - [x] Build MCP context from headers for each request.
 - [x] Resolve repository context from provided metadata or fallback hint.
 - [x] Implement tools:
-  - [x] `save_memory`
+  - [x] `save_memories`
   - [x] `search_memories`
   - [x] `list_memories`
   - [x] `propose_memory_update`
@@ -1038,7 +1038,7 @@ If assigning to another agent, start with this order:
 
 - [ ] Add MCP router/server.
 - [ ] Add MCP context builder.
-- [ ] Add `save_memory` tool.
+- [x] Add `save_memories` tool with typed facts and required rationale.
 - [ ] Add `search_memories` tool.
 - [ ] Add `list_memories` tool.
 - [ ] Add update/delete proposal tools.

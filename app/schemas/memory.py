@@ -24,6 +24,7 @@ class MemoryScope(EngramBaseSchema):
 
 class MemoryCreateRequest(MemoryScope):
     content: str = Field(min_length=1)
+    rationale: str | None = None
     summary: str | None = None
     tags: list[str] = Field(default_factory=list)
     source: MemorySource = MemorySource.DASHBOARD
@@ -39,6 +40,7 @@ class MemoryProposalCreateRequest(MemoryCreateRequest):
 class MemoryUpdateProposalRequest(EngramBaseSchema):
     memory_fact_id: UUID
     content: str = Field(min_length=1)
+    rationale: str | None = None
     summary: str | None = None
     tags: list[str] = Field(default_factory=list)
     source: MemorySource = MemorySource.DASHBOARD
@@ -112,6 +114,7 @@ class MemoryFactResponse(MemoryScope):
     owner_user_id: UUID | None = None
     status: MemoryStatus
     content: str
+    rationale: str | None = None
     summary: str | None = None
     tags: list[str] = Field(default_factory=list)
     source: MemorySource
@@ -135,6 +138,7 @@ class MemoryProposalResponse(MemoryScope):
     proposal_type: ProposalType
     status: ProposalStatus
     proposed_content: str | None = None
+    proposed_rationale: str | None = None
     proposed_summary: str | None = None
     contains_possible_secret: bool = False
     metadata: dict = Field(default_factory=dict)
