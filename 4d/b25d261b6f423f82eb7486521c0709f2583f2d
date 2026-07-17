@@ -1,0 +1,124 @@
+app/services/plugin_session_service.py
+  s_67b1fba8609f3f::t_162a5d13e4e86e 1-32,34,41-42,49-52,56-57
+  s_4015381eeaac96::t_8598ba9ac85cbb 33,35-40,43-48,53-55
+app/models/review.py
+  s_2327446d3dfcd6::t_9314d20efd629f 38
+integrations/engram-plugin/hooks/hooks.json
+  s_67b1fba8609f3f::t_53414e3897563d 10,16-26,28-36
+app/services/memory_service.py
+  s_2327446d3dfcd6::t_1d22219350df3a 91,111,183,206,252,272,499,508-510,638,655,703,710,803,841,968,1388,1412
+app/routers/mcp_router.py
+  s_2327446d3dfcd6::t_2853c82f66bfde 9,26,53,82-92,97-106
+  s_2327446d3dfcd6::t_d193fee8653b1c 409,431,496,498,500-508,512,514-523
+  s_2327446d3dfcd6::t_b8d62494982131 460,497
+  s_2327446d3dfcd6::t_a3026e4b726487 410-411
+  s_2327446d3dfcd6::t_22da4cc4b24ba4 428-430
+  s_2327446d3dfcd6::t_541f780dd17926 493-495
+  s_2327446d3dfcd6::t_267c83220e0710 499
+  s_2327446d3dfcd6::t_e52fe7566c57dd 509-511
+  s_2327446d3dfcd6::t_d6d6093600a101 513
+docs/engram-implementation-checklist.md
+  s_2327446d3dfcd6::t_f4595681a6756d 730,1041
+integrations/engram-plugin/.mcp.json
+  h_cbc19accedcd8a 3
+integrations/engram-plugin/skills/engram-extract/SKILL.md
+  s_2327446d3dfcd6::t_de6a11e0b8c143 12,60,77,83,88,94
+integrations/engram-plugin/plugin.json
+  h_cbc19accedcd8a 18
+docs/memory-bank-implementation-plan.md
+  s_2327446d3dfcd6::t_d7945ecccd22db 682,684,690-698,984,1121
+app/schemas/plugin.py
+  s_4015381eeaac96::t_56190a50076a05 9,11
+  s_67b1fba8609f3f::t_720f9f1d41b585 1-8,10,12
+app/services/mcp_context_service.py
+  s_2327446d3dfcd6::t_f321718cbd34fb 75-79
+integrations/engram-plugin/.claude-plugin/plugin.json
+  h_cbc19accedcd8a 18
+app/routers/plugin.py
+  s_67b1fba8609f3f::t_5a6739bce2ae97 1-24
+integrations/engram-plugin/scripts/on_user_prompt.py
+  s_67b1fba8609f3f::t_3ef317c851190b 1-55,58-78
+  s_2327446d3dfcd6::t_dc73694c177b35 56-57
+app/routers/dependencies.py
+  s_67b1fba8609f3f::t_7500081ed47e33 11,26-53
+  s_67b1fba8609f3f::t_cb30bf837443f3 54-55
+app/models/memory.py
+  s_2327446d3dfcd6::t_687e2863033286 31,106
+integrations/engram-plugin/skills/engram-remember/SKILL.md
+  s_2327446d3dfcd6::t_88a0a3da99a6dd 20-21,43,45
+integrations/engram-plugin/scripts/session_start.sh
+  s_67b1fba8609f3f::t_2c64dda28c4349 40
+  s_67b1fba8609f3f::t_3a2bb87e9027c4 3-4,10,13-14,16,25,35-39,41,43-47,51
+  s_67b1fba8609f3f::t_f23b36fbc161a1 52
+app/migrations/20260716163000_add_memory_rationale.sql
+  s_2327446d3dfcd6::t_74c90b8489bec1 1-21
+integrations/engram-plugin/hooks.json
+  s_67b1fba8609f3f::t_8ce5d017a7e27e 10,16-26,29-38
+app/main.py
+  s_67b1fba8609f3f::t_86dc2c76e44f25 20,37
+app/schemas/mcp.py
+  s_2327446d3dfcd6::t_683b256fea1257 25,28,30,32,34,36,38,40,42,44,46,48,52,61-64
+  s_2327446d3dfcd6::t_e59c0c7c7442ae 22-24
+  s_2327446d3dfcd6::t_f2185205bf57fd 26-27
+  s_2327446d3dfcd6::t_032496c0785f94 29
+  s_2327446d3dfcd6::t_7da3cb0845e9e0 31
+  s_2327446d3dfcd6::t_43007fa7e2fdb9 33
+  s_2327446d3dfcd6::t_4d5bb14c4ca216 35
+  s_2327446d3dfcd6::t_b6674cd5ef5ae7 37
+  s_2327446d3dfcd6::t_dcd55dd407ff42 39
+  s_2327446d3dfcd6::t_51b6a9aaef4d4c 41
+  s_2327446d3dfcd6::t_38af17d945a6cd 43
+  s_2327446d3dfcd6::t_09c74c7c441923 45
+  s_2327446d3dfcd6::t_48518b5958896f 47
+  s_2327446d3dfcd6::t_b427cb671c68c9 50-51
+integrations/engram-plugin/scripts/session_status.py
+  h_cbc19accedcd8a 13
+  s_67b1fba8609f3f::t_097726161d5ee9 1-12,14-106,131-132,134-144,146-148,159,161-170
+  s_2327446d3dfcd6::t_87397a4b340435 145,149-158
+  s_4015381eeaac96::t_0467ad7bc712a6 107,109-130,133,160
+  s_4015381eeaac96::t_58fe162e01ef11 108
+integrations/engram-plugin/scripts/block_native_memory_write.py
+  s_67b1fba8609f3f::t_2c2b5bbd8c602a 1-43,46-53
+  s_2327446d3dfcd6::t_b578d911a4f1f4 44-45
+integrations/engram-plugin/scripts/inject_repository_context.py
+  s_2327446d3dfcd6::t_28a2f1ff21d7a3 55-57,59-60,62-63
+db/migrations/20260716163000_add_memory_rationale.sql
+  s_2327446d3dfcd6::t_794c5607315ff5 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4db25d261b6f423f82eb7486521c0709f2583f2d",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_2327446d3dfcd6": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "5959",
+        "model": "OPENROUTER_GPT_5_POINT_6_LUNA"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    },
+    "s_4015381eeaac96": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "5960",
+        "model": "OPENROUTER_GPT_5_POINT_6_SOL"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    },
+    "s_67b1fba8609f3f": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "5953",
+        "model": "OPENROUTER_GPT_5_POINT_6_TERRA"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
