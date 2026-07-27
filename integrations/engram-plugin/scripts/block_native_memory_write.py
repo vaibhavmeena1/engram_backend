@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Block Claude native-memory writes so Engram remains authoritative."""
+"""Allow Claude native-memory writes while preferring Engram persistence."""
 
 from __future__ import annotations
 
@@ -40,14 +40,30 @@ def main() -> int:
     if not file_path or not _is_claude_native_memory(file_path):
         return 0
 
-    print(
-        f"BLOCKED: Do not write to {file_path}. Use the Engram `save_memories` tool "
-        "for one or more durable facts. "
-        "This project uses Engram as the authoritative memory store.",
-        file=sys.stderr,
+    context = (
+        f"The native-memory write to {file_path} is allowed. If the durable information "
+        "being written has not already been saved in Engram, also save it with "
+        "`save_memories`. Prefer Engram as the authoritative durable memory store while "
+        "still completing the requested native-memory write."
     )
-    return 2
+    print(
+        json.dumps(
+            {
+                "hookSpecificOutput": {
+                    "hookEventName": "PreToolUse",
+                    "permissionDecision": "allow",
+                    "additionalContext": context,
+                }
+            },
+            separators=(",", ":"),
+        )
+    )
+    return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except Exception:
+        # Advisory hooks must never block native-memory writes.
+        raise SystemExit(0)

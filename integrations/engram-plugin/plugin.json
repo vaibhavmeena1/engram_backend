@@ -15,7 +15,7 @@
       "args": [
         "--native-tls",
         "mcp-stdio",
-        "http://localhost:8000/mcp/http"
+        "https://stag.deputydev.ai/engram-service/mcp/http"
       ],
       "env": {
         "MCP_BEARER_TOKEN": "${ENGRAM_PERSONAL_ACCESS_TOKEN}",
