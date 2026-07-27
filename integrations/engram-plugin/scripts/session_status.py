@@ -8,6 +8,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
+from pathlib import Path
 from typing import Any
 
 DEFAULT_API_BASE_URL = "http://localhost:8000"
@@ -64,6 +65,16 @@ def _fetch_status(metadata: dict[str, str], token: str) -> dict[str, Any] | None
     return payload
 
 
+def _project_instruction_files(metadata: dict[str, str]) -> list[str]:
+    git_root = metadata.get("git_root")
+    if not git_root:
+        return []
+
+    root = Path(git_root)
+    candidates = ("AGENTS.md", "CLAUDE.md", ".cursorrules", ".windsurfrules")
+    return [name for name in candidates if (root / name).is_file()]
+
+
 def _repository_label(
     metadata: dict[str, str], status: dict[str, Any] | None
 ) -> str:
@@ -104,15 +115,21 @@ def main() -> int:
     repository_label = _repository_label(metadata, status)
     repository_resolved = bool(status and status.get("repository_resolved"))
     resolution = "resolved" if repository_resolved else "unresolved"
+    repository_memory_count_value: int | None = None
 
     if repository_resolved and status:
         user_memory_count = status.get("user_memory_count")
         repository_memory_count = status.get("repository_memory_count")
         organization_memory_count = status.get("organization_memory_count")
         user_memory_count = user_memory_count if isinstance(user_memory_count, int) else "?"
-        repository_memory_count = (
+        repository_memory_count_value = (
             repository_memory_count
             if isinstance(repository_memory_count, int)
+            else None
+        )
+        repository_memory_count = (
+            repository_memory_count_value
+            if repository_memory_count_value is not None
             else "?"
         )
         organization_memory_count = (
@@ -144,7 +161,9 @@ def main() -> int:
         "After completing a substantial task or making a durable decision, proactively "
         "save high-confidence learnings with the Engram `save_memories` tool. Store stable "
         "user preferences in user scope and repository conventions or architecture in repo "
-        "scope. Do not store secrets, transient errors, or temporary task state."
+        "scope. Save useful facts incrementally before session end or context compaction, but "
+        "do nothing when no fact meets the durability bar. Do not store secrets, transient "
+        "errors, session summaries, or temporary task state."
     )
     if repository_resolved:
         print(
@@ -156,6 +175,14 @@ def main() -> int:
             "Repository context is unavailable: for a repo-scoped save, provide only "
             "repository.origin_url when you know the current Git remote."
         )
+    instruction_files = _project_instruction_files(metadata)
+    if repository_resolved and repository_memory_count_value == 0 and instruction_files:
+        print(
+            "This repository has no approved Engram memories and contains project instruction "
+            f"files ({', '.join(instruction_files)}). When useful, invoke `engram-import-project` "
+            "to review them and submit only stable repository conventions as memory proposals."
+        )
+
     if status is None:
         print("Engram status could not be fetched; memory counts are unavailable.")
     elif not repository_resolved:

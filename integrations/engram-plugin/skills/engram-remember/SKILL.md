@@ -1,15 +1,20 @@
 ---
 name: engram-remember
-description: Add one durable fact to the current user's Engram memories, or explicitly to current repo/org memory.
+description: Proactively or explicitly save one newly established durable user, repository, or organization fact to Engram.
 ---
 
 # Engram Remember
 
-Use this skill when the user says “remember this”, “save this”, “note that”, or asks to preserve a durable fact.
+Use this skill in either situation:
 
-Default behavior is simple: **add it to your memories**. Do not ask for or pass a user ID or org ID. Engram gets the current user and organization from authentication, and repository metadata from hooks.
+- **Explicit:** the user says “remember this”, “save this”, “note that”, or otherwise asks to preserve a durable fact.
+- **Proactive:** the recent conversation clearly establishes one new high-confidence fact that will remain useful for months, such as a stable user preference, repository convention, architecture decision, or organization standard.
 
-For extracting multiple facts from old session history, use `engram-extract`.
+Do not wait for explicit wording when one fact clearly meets the quality bar. Proactive saving is advisory, not mandatory: if the evidence or durability is uncertain, do not save anything and do not announce an empty memory check.
+
+Default behavior is simple: **add one durable fact to the appropriate memory scope**. Do not ask for or pass a user ID or org ID. Engram gets the current user and organization from authentication, and repository metadata from hooks.
+
+For extracting multiple facts, reviewing a longer running conversation, or processing old session history, use `engram-extract` or `engram-checkpoint`.
 
 ## Scope Rules
 
@@ -24,6 +29,8 @@ For extracting multiple facts from old session history, use `engram-extract`.
 
 Save only durable facts likely to remain useful for months.
 
+For proactive saves, require direct evidence from the visible conversation. Do not turn guesses, ordinary task completion, or a single temporary implementation choice into memory. Save no more than one proactive fact from a meaningful exchange; use `engram-extract` when several facts need evaluation.
+
 Do not store:
 
 - temporary tasks,
@@ -37,21 +44,24 @@ Do not store:
 
 ## Steps
 
-1. Extract one concise standalone fact from the user's request.
-2. Assign scope per the **Scope Rules** section above.
-3. Choose 1-5 lowercase tags.
-4. Call `save_memories` with one item in `facts`:
+1. Identify the trigger as explicit or proactive, then extract one concise standalone fact from the visible conversation.
+2. Verify that the fact is newly established, directly supported, and likely to remain useful for months. If not, stop without saving.
+3. Assign scope per the **Scope Rules** section above.
+4. Choose 1-5 lowercase tags.
+5. Call `save_memories` with one item in `facts`:
    - `content`: durable fact only
-   - `rationale`: why the fact is durable and useful in future work
+   - `rationale`: why the fact is well-supported, durable, and useful in future work
    - `scope`: `user`, `repo`, or `org`
    - `summary`: short optional summary
    - `tags`: concise tags
-   - `metadata`: `{ "source": "engram-remember", "confidence": 1.0 }`
-5. Tell the user whether it was saved directly or submitted as a review proposal.
-6. If a proposal was created, mention the proposal ID and that it is pending review.
+   - explicit metadata: `{ "source": "engram-remember", "confidence": 1.0 }`
+   - proactive metadata: `{ "source": "engram-remember-proactive", "confidence": 0.85 }`
+6. For an explicit request, tell the user whether it was saved directly or submitted as a review proposal. For a proactive direct save, mention it only when useful and keep the note brief.
+7. Always disclose a pending repo/org proposal, including its proposal ID.
 
 ## Examples
 
-- “Remember that I prefer concise explanations.” → `scope="user"`.
-- “Remember this repo uses the Template Pattern for providers.” → `scope="repo"`.
-- “Remember this applies across all 1mg repositories.” → `scope="org"`.
+- “Remember that I prefer concise explanations.” → explicit `scope="user"`, confidence `1.0`.
+- The user repeatedly establishes a preference for architecture-first explanations without saying “remember” → proactive `scope="user"`, confidence `0.85`.
+- A substantial implementation confirms that the repository consistently uses the Template Pattern for providers → proactive `scope="repo"`, normally submitted for review.
+- “Remember this applies across all 1mg repositories.” → explicit `scope="org"`, normally submitted for review.

@@ -1,11 +1,11 @@
 ---
 name: engram-extract
-description: Extract high-confidence long-term Engram memory facts from visible or pasted conversation history, then save them with user/repo/org scope.
+description: Extract high-confidence long-term Engram facts from visible, pasted, old, or currently running conversation history, including advisory memory checkpoints.
 ---
 
 # Engram Extract
 
-Use this skill when the user opens an old session, pastes a transcript, or asks to extract durable memory from earlier messages.
+Use this skill when the user opens an old session, pastes a transcript, asks to extract durable memory from earlier messages, or when an Engram memory checkpoint asks you to inspect the recent running conversation.
 
 This is **not** a session summary workflow. Extract only facts that should improve future assistance for months.
 
@@ -53,8 +53,8 @@ Prefer:
    - Will this likely still help after 6 months?
    - Would remembering this reduce repeated explanations?
    - Would another assistant benefit from knowing this?
-3. Drop weak candidates. If nothing passes, say that no durable memory facts were found.
-4. For each retained fact, write one concise standalone sentence.
+3. Drop weak candidates. At an automatic checkpoint, silently continue without a save when nothing passes; when the user explicitly requested extraction, say that no durable memory facts were found.
+4. For each retained fact, write one concise standalone sentence. At a checkpoint, keep the batch to at most three facts.
 5. Assign an explicit scope: `user`, `repo`, or `org`.
 6. Add 1-5 lowercase tags such as `preference`, `working-style`, `architecture`, `convention`, `repo`, or `org-standard`.
 7. Call `save_memories` with the `facts` parameter set to a list of fact objects (see shape below), and set `default_scope` to the dominant scope for the batch (typically `"user"`). Individual facts may override scope. Every fact must include `rationale`, a concise explanation of why it passed the rubric. Include metadata per fact:

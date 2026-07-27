@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-REMINDER_INTERVAL = 5
+REMINDER_INTERVAL = 3
 MINIMUM_PROMPT_LENGTH = 20
 
 
@@ -52,10 +52,15 @@ def main() -> int:
         return 0
 
     context = (
-        "Engram reminder: after responding, save any new high-confidence, durable "
-            "preference, repository convention, architecture decision, or organization standard "
-            "with `save_memories`. Do not save temporary task state, stack traces, secrets, or "
-        "one-off implementation details."
+        "Engram memory checkpoint: after responding, briefly inspect the recent exchange. "
+        "If it established a new high-confidence fact that will remain useful for months, "
+        "save at most 1-3 standalone facts with `save_memories`. Appropriate facts include "
+        "stable user preferences, repository conventions, architecture decisions, and "
+        "organization standards. This checkpoint is advisory: if no fact clearly meets the "
+        "durability bar, do not save anything. Never save session summaries, temporary task "
+        "state, current bugs, stack traces, secrets, or one-off implementation details. Save "
+        "durable task outcomes incrementally so they are preserved before session end or "
+        "context compaction."
     )
     print(
         json.dumps(
