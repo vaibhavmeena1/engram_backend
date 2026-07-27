@@ -1,0 +1,36 @@
+integrations/engram-plugin/skills/engram-remember/SKILL.md
+  s_c2962c4dd24bbf::t_f59ae1d2836958 3,8,10-11,13-17,32-33,47-51,53,57-60,64-67
+integrations/engram-plugin/skills/engram-extract/SKILL.md
+  s_c2962c4dd24bbf::t_172524587b4659 3,8,56-57
+integrations/engram-plugin/skills/engram-checkpoint/SKILL.md
+  s_c2962c4dd24bbf::t_25e6a759a079e9 1-40
+integrations/engram-plugin/scripts/session_status.py
+  s_c2962c4dd24bbf::t_898db18895ace5 11,68-77,118,125,128,164-166,178-185
+  s_c2962c4dd24bbf::t_8a2f13477a9558 130-132
+  s_c2962c4dd24bbf::t_8370b63895a7d0 129
+integrations/engram-plugin/skills/engram-import-project/SKILL.md
+  s_c2962c4dd24bbf::t_a1c41160f2d517 1-56
+integrations/engram-plugin/scripts/on_user_prompt.py
+  s_c2962c4dd24bbf::t_3981e15896ed32 13,55-63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "876c5c8857b4460e86b86ca94c65d655d45dadaa",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_c2962c4dd24bbf": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "461455",
+        "model": "OPENROUTER_GPT_5_POINT_6_SOL"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
