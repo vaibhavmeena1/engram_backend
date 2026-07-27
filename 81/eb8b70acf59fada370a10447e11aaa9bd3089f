@@ -1,0 +1,26 @@
+integrations/engram-plugin/scripts/block_native_memory_write.py
+  s_f1299aa0a88798::t_224d70d3349fb7 2,43-48,50-59,61,65-69
+integrations/engram-plugin/plugin.json
+  h_cbc19accedcd8a 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "81eb8b70acf59fada370a10447e11aaa9bd3089f",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_f1299aa0a88798": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "461641",
+        "model": "OPENROUTER_GPT_5_POINT_6_SOL"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
