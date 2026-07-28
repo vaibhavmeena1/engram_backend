@@ -1,0 +1,14 @@
+integrations/engram-plugin/scripts/session_status.py
+  h_cbc19accedcd8a 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "4d748f9f2f98042b47ef73b286c9f406629d9285",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
