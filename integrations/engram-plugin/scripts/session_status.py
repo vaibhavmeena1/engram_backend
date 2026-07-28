@@ -11,7 +11,7 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-DEFAULT_API_BASE_URL = "http://localhost:8000"
+DEFAULT_API_BASE_URL = "https://stag.deputydev.ai/engram-service"
 REQUEST_TIMEOUT_SECONDS = 4
 
 
