@@ -30,6 +30,8 @@ def _request_headers(metadata: dict[str, str], token: str) -> dict[str, str]:
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/json",
+        # Avoid urllib's default signature, which staging Cloudflare blocks.
+        "User-Agent": "Engram-Plugin/1.0",
         "X-Engram-Client": "claude-code",
     }
     header_mapping = {

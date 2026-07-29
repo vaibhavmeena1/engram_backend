@@ -6,7 +6,12 @@
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-INPUT="$(cat)"
+if [ -t 0 ]; then
+  # Direct terminal invocations have no hook payload and must not wait for EOF.
+  INPUT=""
+else
+  INPUT="$(cat)"
+fi
 REPO_JSON="$(printf '%s' "$INPUT" | python3 "$SCRIPT_DIR/repository_context.py" 2>/dev/null || echo '{}')"
 
 if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
