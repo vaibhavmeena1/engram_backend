@@ -1,14 +1,13 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
   "name": "engram",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Internal Engram memory for Claude Code. Adds repository-aware MCP memory tools, old-session fact extraction, simple context retrieval, automatic Git metadata injection, and scoped memory skills.",
   "author": { "name": "Vaibhav Meena", "email": "vaibhav.meena@1mg.com" },
   "publisher": "tata1mg",
   "license": "UNLICENSED",
   "keywords": ["memory", "mcp", "repository", "claude-code", "engram"],
   "skills": "./skills/",
-  "hooks": "./hooks/hooks.json",
   "mcpServers": {
     "engram": {
       "command": "uvx",
