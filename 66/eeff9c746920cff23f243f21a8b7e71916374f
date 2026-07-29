@@ -1,0 +1,16 @@
+integrations/engram-plugin/.claude-plugin/plugin.json
+  h_cbc19accedcd8a 4
+integrations/engram-plugin/plugin.json
+  h_cbc19accedcd8a 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "66eeff9c746920cff23f243f21a8b7e71916374f",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
