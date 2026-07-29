@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import json
 import os
+import ssl
+import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -47,24 +49,68 @@ def _request_headers(metadata: dict[str, str], token: str) -> dict[str, str]:
     return headers
 
 
-def _fetch_status(metadata: dict[str, str], token: str) -> dict[str, Any] | None:
-    base_url = os.environ.get("ENGRAM_API_BASE_URL", DEFAULT_API_BASE_URL).rstrip("/")
-    request = urllib.request.Request(
-        f"{base_url}/api/plugin/session-status",
-        headers=_request_headers(metadata, token),
-        method="GET",
-    )
+def _parse_status_payload(raw_payload: str) -> dict[str, Any] | None:
     try:
-        with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except (OSError, ValueError, urllib.error.HTTPError, urllib.error.URLError):
+        payload = json.loads(raw_payload)
+    except (TypeError, ValueError):
         return None
-
     if not isinstance(payload, dict):
         return None
     if isinstance(payload.get("data"), dict):
         return payload["data"]
     return payload
+
+
+def _fetch_status_with_curl(
+    url: str, headers: dict[str, str]
+) -> dict[str, Any] | None:
+    # Pass headers over stdin so the bearer token is not exposed in process arguments.
+    header_input = "".join(
+        f"{header_name}: {header_value}\n"
+        for header_name, header_value in headers.items()
+    )
+    try:
+        result = subprocess.run(
+            [
+                "curl",
+                "--silent",
+                "--show-error",
+                "--fail",
+                "--max-time",
+                str(REQUEST_TIMEOUT_SECONDS),
+                "--header",
+                "@-",
+                url,
+            ],
+            input=header_input,
+            capture_output=True,
+            text=True,
+            timeout=REQUEST_TIMEOUT_SECONDS + 1,
+            check=False,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if result.returncode != 0:
+        return None
+    return _parse_status_payload(result.stdout)
+
+
+def _fetch_status(metadata: dict[str, str], token: str) -> dict[str, Any] | None:
+    base_url = os.environ.get("ENGRAM_API_BASE_URL", DEFAULT_API_BASE_URL).rstrip("/")
+    url = f"{base_url}/api/plugin/session-status"
+    headers = _request_headers(metadata, token)
+
+    # macOS system Python links against old LibreSSL, which cannot negotiate with
+    # the staging edge. System curl uses a compatible TLS stack.
+    if sys.platform == "darwin" and ssl.OPENSSL_VERSION.startswith("LibreSSL"):
+        return _fetch_status_with_curl(url, headers)
+
+    request = urllib.request.Request(url, headers=headers, method="GET")
+    try:
+        with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            return _parse_status_payload(response.read().decode("utf-8"))
+    except (OSError, ValueError, urllib.error.HTTPError, urllib.error.URLError):
+        return None
 
 
 def _project_instruction_files(metadata: dict[str, str]) -> list[str]:

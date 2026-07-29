@@ -10,6 +10,8 @@ from typing import Any
 
 
 def _read_input() -> dict[str, Any]:
+    if sys.stdin.isatty():
+        return {}
     try:
         value = json.loads(sys.stdin.read() or "{}")
     except json.JSONDecodeError:

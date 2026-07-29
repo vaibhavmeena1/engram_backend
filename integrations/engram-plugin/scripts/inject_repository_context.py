@@ -22,6 +22,8 @@ ENGRAM_TOOL_PREFIXES = (
 
 
 def _read_hook_input() -> dict[str, Any]:
+    if sys.stdin.isatty():
+        return {}
     raw_input = sys.stdin.read()
     if not raw_input.strip():
         return {}
