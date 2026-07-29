@@ -12,7 +12,7 @@
       "name": "engram",
       "source": "./integrations/engram-plugin",
       "description": "Internal Engram memory for Claude Code. Adds repository-aware MCP memory tools, automatic Git metadata injection, and project-scoped memory skills.",
-      "version": "0.1.0"
+      "version": "0.1.2"
     }
   ]
 }
