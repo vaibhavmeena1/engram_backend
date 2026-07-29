@@ -1,0 +1,26 @@
+integrations/engram-plugin/scripts/session_status.py
+  s_d123b431a0390d::t_63d7200f3ebab6 33-34
+integrations/engram-plugin/scripts/session_start.sh
+  s_d123b431a0390d::t_5e29ab641df360 9-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "fdd0e94bc8570c139ec8652bb58a167f2acaca07",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_d123b431a0390d": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "462496",
+        "model": "OPENROUTER_GPT_5_POINT_6_SOL"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
