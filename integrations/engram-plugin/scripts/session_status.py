@@ -76,6 +76,8 @@ def _fetch_status_with_curl(
                 "--silent",
                 "--show-error",
                 "--fail",
+                "--noproxy",
+                "*",
                 "--max-time",
                 str(REQUEST_TIMEOUT_SECONDS),
                 "--header",
@@ -105,9 +107,12 @@ def _fetch_status(metadata: dict[str, str], token: str) -> dict[str, Any] | None
     if sys.platform == "darwin" and ssl.OPENSSL_VERSION.startswith("LibreSSL"):
         return _fetch_status_with_curl(url, headers)
 
+    # Corporate proxies (e.g. Zscaler) can get the egress IP blocked by the
+    # staging edge's WAF; talk to the Engram API directly, bypassing proxies.
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     request = urllib.request.Request(url, headers=headers, method="GET")
     try:
-        with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+        with opener.open(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
             return _parse_status_payload(response.read().decode("utf-8"))
     except (OSError, ValueError, urllib.error.HTTPError, urllib.error.URLError):
         return None
