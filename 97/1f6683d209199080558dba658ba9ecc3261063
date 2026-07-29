@@ -1,0 +1,37 @@
+integrations/engram-plugin/scripts/block_native_memory_write.py
+  s_d123b431a0390d::t_79eb46b4891456 13-14
+integrations/engram-plugin/plugin.json
+  s_d123b431a0390d::t_a3f6310008457c 4
+integrations/engram-plugin/scripts/on_user_prompt.py
+  s_d123b431a0390d::t_e4f44422f1363d 18-19
+integrations/engram-plugin/scripts/session_status.py
+  s_d123b431a0390d::t_21caf7d4464c0f 8-9,52,54-55,64-113
+  s_d123b431a0390d::t_45d69a9c7cc314 114-115
+integrations/engram-plugin/scripts/inject_repository_context.py
+  s_d123b431a0390d::t_3d2496f7529c8e 25-26
+integrations/engram-plugin/scripts/repository_context.py
+  s_d123b431a0390d::t_38d090319727a3 29-30
+integrations/engram-plugin/.claude-plugin/plugin.json
+  h_cbc19accedcd8a 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "971f6683d209199080558dba658ba9ecc3261063",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_d123b431a0390d": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "462496",
+        "model": "OPENROUTER_GPT_5_POINT_6_SOL"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
