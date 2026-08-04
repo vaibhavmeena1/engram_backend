@@ -1,0 +1,39 @@
+integrations/engram-plugin/.claude-plugin/plugin.json
+  h_cbc19accedcd8a 4
+docs/engram-plugin-setup.md
+  s_f0165b9856881b::t_0d996e1d763e31 9,15,17,310-362
+  s_7aaaf3944dcfa6::t_bbd6b4ace60969 1-8,10-14,16,18-309,363-443
+integrations/engram-plugin/plugin.json
+  h_cbc19accedcd8a 4
+.claude-plugin/marketplace.json
+  h_cbc19accedcd8a 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "41ed666b8e2ef64efa9b14c8b72b50abc38a9318",
+  "prompts": {},
+  "humans": {
+    "h_cbc19accedcd8a": {
+      "author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  },
+  "sessions": {
+    "s_7aaaf3944dcfa6": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "463654",
+        "model": "OPENROUTER_GPT_5_POINT_6_SOL"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    },
+    "s_f0165b9856881b": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "463989",
+        "model": "OPENROUTER_GPT_5_POINT_6_SOL"
+      },
+      "human_author": "Vaibhav Meena <vaibhav.meena@1mg.com>"
+    }
+  }
+}
